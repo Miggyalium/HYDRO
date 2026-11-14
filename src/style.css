@@ -131,6 +131,9 @@ form input { padding-left: .65rem; }
 .direction-overview { background: #302217; border-radius: .55rem; padding: .6rem .7rem; margin-bottom: .6rem; }
 .direction-overview > strong { font-size: 1.3rem; }
 .direction-overview p { margin: .45rem 0 0; }
+.placing-landmark { cursor: crosshair; }
+.landmark-panel a { color: #ffd1ab; }
+.landmark-panel > p { margin-block: .6rem; }
 .direction-precautions { display: grid; gap: .55rem; margin: .55rem 0 0; }
 .direction-precautions > div { border: 1px solid #75513a; border-radius: .45rem; padding: .5rem; }
 .direction-precautions dt { font-weight: 600; }

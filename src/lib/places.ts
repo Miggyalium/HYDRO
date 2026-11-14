@@ -27,3 +27,10 @@ const radius = Number(site.projection.proj4.match(/(?:^| )\+R=(\d+)(?: |$)/)?.[1
 export function project([lon, lat]: readonly number[]): [number, number] {
   return [lon * Math.PI / 180 * radius, lat * Math.PI / 180 * radius];
 }
+
+export function unproject([x, y]: readonly number[]): [number, number] {
+  const degreesPerMetre = 180 / (Math.PI * radius);
+  return [x * degreesPerMetre, y * degreesPerMetre];
+}
+
+export const landmarkId = 'user-landmark';

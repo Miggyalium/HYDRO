@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Feature from 'ol/Feature.js';
 import MultiPoint from 'ol/geom/MultiPoint.js';
+import Point from 'ol/geom/Point.js';
 import LineString from 'ol/geom/LineString.js';
 import { fromExtent } from 'ol/geom/Polygon.js';
 import VectorLayer from 'ol/layer/Vector.js';
@@ -21,7 +22,8 @@ import site from './data/site.json';
 import ctx from './data/ctx.json';
 import cards from './data/cards.json';
 import vikingContext from './data/viking-context.json';
-import { entries, places, project, search, type Entry } from './lib/places';
+import { entries, landmarkId, places, project, search, unproject, type Entry } from './lib/places';
+import { marsDistanceKm, marsRadiusSource } from './lib/marsDistance';
 import 'ol/ol.css';
 import './style.css';
 import { ScienceCard } from './ScienceCard';
@@ -69,6 +71,18 @@ function App() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Entry>();
   const [directionsOpen, setDirectionsOpen] = useState(false);
+  const [stops, setStops] = useState(['', '']);
+  const [landmarksOpen, setLandmarksOpen] = useState(false);
+  const [placingLandmark, setPlacingLandmark] = useState(false);
+  const [placementOutside, setPlacementOutside] = useState(false);
+  const placingRef = useRef(false);
+  const [landmark, setLandmark] = useState<[number, number]>();
+  const [landmarkSource] = useState(() => new VectorSource<Feature<Point>>());
+  function setPlacement(enabled: boolean) {
+    placingRef.current = enabled;
+    setPlacingLandmark(enabled);
+    setPlacementOutside(false);
+  }
   const [findings, setFindings] = useState<{ area: string; startNew: boolean }>();
   const [trackSource] = useState(() => new VectorSource<Feature<MultiPoint>>());
   const [lineSource] = useState(() => new VectorSource<Feature<LineString>>());
@@ -102,7 +116,16 @@ function App() {
   const colorLayer = useRef<ImageLayer<ImageStatic> | null>(null);
   const [surfaceViewsOpen, setSurfaceViewsOpen] = useState(false);
   const results = search(query);
+  const journeyDestination = places.find(place => place.id === stops.at(-1));
+  function continueFromLandmark(destination: string) {
+    setPlacement(false);
+    setStops([landmarkId, destination]);
+    setLandmarksOpen(false);
+    setDirectionsOpen(true);
+  }
   function select(entry: Entry) {
+    setPlacement(false);
+    setLandmarksOpen(false);
     setLayersOpen(false);
     setFindings(undefined);
     setDirectionsOpen(false);
@@ -144,8 +167,39 @@ function App() {
           new Style({ stroke: new Stroke({ color: '#25160d', width: 4, lineDash: [7, 5] }) }),
           new Style({ stroke: new Stroke({ color: '#ffb568', width: 2, lineDash: [7, 5] }) }),
         ],
+      }), new VectorLayer({
+        source: landmarkSource,
+        style: new Style({
+          image: new CircleStyle({ radius: 8, fill: new Fill({ color: '#86e4d4' }), stroke: new Stroke({ color: '#182629', width: 3 }) }),
+          text: new Text({
+            text: 'My landmark', offsetY: -17, font: '600 12px system-ui',
+            fill: new Fill({ color: '#fff' }), backgroundFill: new Fill({ color: '#182629' }), padding: [3, 5, 3, 5],
+          }),
+        }),
       })],
     });
+    const placeLandmark = (coordinate: number[]) => {
+      const [x, y] = coordinate;
+      const [west, south, east, north] = site.bboxProjectedM;
+      if (x < west || x > east || y < south || y > north) {
+        setPlacementOutside(true);
+        return;
+      }
+      setLandmark(unproject(coordinate));
+      setPlacement(false);
+    };
+    map.on('singleclick', event => {
+      if (placingRef.current) placeLandmark(event.coordinate);
+    });
+    surface.addEventListener('keydown', handlePlacementKey);
+    function handlePlacementKey(event: KeyboardEvent) {
+      if (!placingRef.current || event.target !== surface) return;
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const center = view.getCenter();
+        if (center) placeLandmark(center);
+      } else if (event.key === 'Escape') setPlacement(false);
+    }
     const markers = places.map(place => {
       const button = document.createElement('button');
       button.className = 'marker';
@@ -218,10 +272,15 @@ function App() {
     surface.addEventListener('hydro-selection', listener);
     return () => {
       resize.disconnect();
+      surface.removeEventListener('keydown', handlePlacementKey);
       surface.removeEventListener('hydro-selection', listener);
       map.dispose();
     };
-  }, [intro, trackSource, lineSource]);
+  }, [intro, trackSource, lineSource, landmarkSource]);
+  useEffect(() => {
+    landmarkSource.clear();
+    if (landmark) landmarkSource.addFeature(new Feature(new Point(project(landmark))));
+  }, [landmark, landmarkSource]);
   useEffect(() => {
     colorLayer.current?.setVisible(colorOptical);
   }, [intro, colorOptical]);
@@ -236,19 +295,30 @@ function App() {
   return <>
     <header className="masthead"><img src={import.meta.env.BASE_URL + 'hydro-wordmark.png'} alt="Hydro" /><span>Uncover Jezero’s water</span></header>
     {!intro && <main>
-      <div className="map" ref={target} tabIndex={0} aria-label="Interactive Jezero Crater map" />
+      <div className={placingLandmark ? 'map placing-landmark' : 'map'} ref={target} tabIndex={0} aria-label="Interactive Jezero Crater map" />
       <nav className="map-tool-rail" aria-label="Map tools">
         <div className="rail-features" role="group" aria-label="Features">
         <RailButton label="Directions" preview="photos/pliva-ctx-review.png" expanded={directionsOpen && !open}
-          onClick={() => { setFindings(undefined); setOpen(false); setLayersOpen(false); setDirectionsOpen(open || !directionsOpen); }} />
+          onClick={() => {
+            setPlacement(false); setLandmarksOpen(false); setFindings(undefined); setOpen(false); setLayersOpen(false);
+            if (stops.every(stop => !stop) && selected) setStops(['', selected.place.id]);
+            setDirectionsOpen(open || !directionsOpen);
+          }} />
         <RailButton label="Findings" preview="assets/findings-icon.svg" expanded={Boolean(findings) && !open}
           onClick={() => {
+            setPlacement(false);
+            setLandmarksOpen(false);
             setOpen(false);
             setLayersOpen(false);
             setDirectionsOpen(false);
             setFindings(findings && !open ? undefined : { area: selected?.place.id ?? '', startNew: false });
           }} />
         <RailButton label="Surface views" preview="assets/surface-views-icon.svg" onClick={() => setSurfaceViewsOpen(true)} />
+        <RailButton label="Landmark" preview="assets/landmark-icon.svg" expanded={landmarksOpen && !open}
+          onClick={() => {
+            setPlacement(false); setOpen(false); setFindings(undefined); setDirectionsOpen(false); setLayersOpen(false);
+            setLandmarksOpen(open || !landmarksOpen);
+          }} />
         </div>
         <div className="rail-places" role="group" aria-label="Jezero locations">
           <span className="rail-section-label" aria-hidden="true">Locations</span>
@@ -275,14 +345,43 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} onLines={updateLines}
+        {landmarksOpen && !open && <section className="surface landmark-panel" aria-label="Landmark">
+          <h1>My landmark</h1>
+          <p>Mark a rest stop or base camp inside the Hydro study area.</p>
+          <button className="layers-toggle" type="button" onClick={() => {
+            setPlacement(!placingLandmark);
+            if (!placingLandmark) target.current?.focus({ preventScroll: true });
+          }}>{placingLandmark ? 'Cancel placement' : landmark ? 'Move pin' : 'Place pin'}</button>
+          {placingLandmark && <p role="status">{placementOutside ? 'That point is outside the study area. ' : ''}
+            Click inside the dashed boundary, or pan with the arrow keys and press Enter to pin the map center.</p>}
+          {landmark && <>
+            {journeyDestination && <p>
+              <strong>{marsDistanceKm(landmark, journeyDestination.anchor).toFixed(2)} km</strong> to {journeyDestination.name}
+              <small>Straight-line distance · Derived</small>
+              <button className="layers-toggle directions-toggle" type="button" onClick={() => continueFromLandmark(journeyDestination.id)}>
+                Continue to {journeyDestination.name}
+              </button>
+            </p>}
+            <p><strong>Straight-line distances</strong> · Derived</p>
+            <ul>{places.map(place => <li key={place.id}><button type="button" onClick={() => continueFromLandmark(place.id)}>
+              {place.name}<small>{marsDistanceKm(landmark, place.anchor).toFixed(2)} km · Open Directions</small>
+            </button></li>)}</ul>
+            <a href={marsRadiusSource} target="_blank" rel="noopener noreferrer">Mars distance reference</a>
+            <p><button className="layers-toggle" type="button" onClick={() => {
+              setPlacement(false);
+              setLandmark(undefined);
+              setStops(previous => previous.map(stop => stop === landmarkId ? '' : stop));
+            }}>Remove pin</button></p>
+          </>}
+        </section>}
+        {directionsOpen && !open && <Directions stops={stops} setStops={setStops} landmark={landmark} onTrack={updateTrack} onLines={updateLines}
           onOpenFindings={area => {
             setDirectionsOpen(false);
             setLayersOpen(false);
             setFindings({ area, startNew: true });
           }} />}
         {findings && <div hidden={open}><Findings {...findings} /></div>}
-        {selected && !open && !directionsOpen && !findings && <ScienceCard key={selected.key} entry={selected} onSelect={select}
+        {selected && !open && !directionsOpen && !findings && !landmarksOpen && <ScienceCard key={selected.key} entry={selected} onSelect={select}
           onNewFinding={() => {
             setLayersOpen(false);
             setFindings({ area: selected.place.id, startNew: true });

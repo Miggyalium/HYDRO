@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { marsDistanceKm, marsRadiusSource } from './lib/marsDistance';
-import { places, project } from './lib/places';
+import { landmarkId, places, project } from './lib/places';
 import registry from './data/directions-pairs.json';
 import cautions from './data/cautions.json';
 
@@ -14,9 +14,6 @@ const precautionByArea: Partial<Record<string, { score: number; scope: string }>
 };
 const placesSource = 'https://pds-geosciences.wustl.edu/missions/mars2020/places.htm';
 const nameOf = (id: string) => places.find(place => place.id === id)?.name ?? id;
-const anchorOf = (id: string) => places.find(place => place.id === id)!.anchor;
-const hasDistinctAnchors = (from: string, to: string) => from !== to
-  && places.some(place => place.id === from) && places.some(place => place.id === to);
 const getPair = (a: string, b: string) => a !== b
   ? registry.pairs.find(pair => pair.areas.includes(a) && pair.areas.includes(b))
   : undefined;
@@ -27,13 +24,14 @@ export function AreaCaution({ id }: { id: string }) {
   return <p>{record[0]} <a target="_blank" rel="noopener noreferrer" href={record[1]}>Source</a></p>;
 }
 
-export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
-  initialStop: string;
+export function Directions({ stops, setStops, landmark, onTrack, onLines, onOpenFindings }: {
+  stops: string[];
+  setStops: React.Dispatch<React.SetStateAction<string[]>>;
+  landmark?: [number, number];
   onTrack: (points: number[][]) => void;
   onLines: (lines: DirectionLine[]) => void;
   onOpenFindings: (area: string) => void;
 }) {
-  const [stops, setStops] = useState(['', initialStop]);
   const [showTrack, setShowTrack] = useState(true);
   const [rows, setRows] = useState<number[][]>();
   const [failed, setFailed] = useState(false);
@@ -47,22 +45,20 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
     const samples = track && slice.length === track.recordCount ? slice : [];
     const roverKm = samples.reduce((sum, row, i) =>
       i === 0 ? sum : sum + marsDistanceKm(samples[i - 1].slice(4, 6), row.slice(4, 6)), 0);
-    return { from, to, track, samples, roverKm,
-      mapKm: hasDistinctAnchors(from, to) ? marsDistanceKm(anchorOf(from), anchorOf(to)) : undefined };
-  }), [stops, rows]);
+    const start = from === landmarkId ? landmark : places.find(place => place.id === from)?.anchor;
+    const end = to === landmarkId ? landmark : places.find(place => place.id === to)?.anchor;
+    const mapKm = from !== to && start && end ? marsDistanceKm(start, end) : undefined;
+    const line = mapKm !== undefined && start && end
+      ? { coordinates: [project(start), project(end)], label: distanceLabel(mapKm) } : undefined;
+    return { from, to, track, samples, roverKm, mapKm, line };
+  }), [stops, rows, landmark]);
   const hasTrack = legs.some(leg => leg.track);
+  const stopName = (id: string) => id === landmarkId ? 'My landmark' : nameOf(id);
 
   useEffect(() => {
-    const lines = stops.slice(1).flatMap((to, index) => {
-      const from = stops[index];
-      if (!hasDistinctAnchors(from, to)) return [];
-      const start = anchorOf(from);
-      const end = anchorOf(to);
-      return [{ coordinates: [project(start), project(end)], label: distanceLabel(marsDistanceKm(start, end)) }];
-    });
-    onLines(lines);
+    onLines(legs.flatMap(leg => leg.line ? [leg.line] : []));
     return () => onLines([]);
-  }, [stops, onLines]);
+  }, [legs, onLines]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -94,6 +90,7 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
           setStops(previous => previous.map((item, i) => i === index ? value : item));
         }}>
           <option value="">Choose an area</option>
+          {landmark && <option value={landmarkId}>My landmark</option>}
           {places.map(place => <option key={place.id} value={place.id}>{place.name}</option>)}
         </select>
       </label>
@@ -108,7 +105,7 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
     {legs.map(({ from, to, track, mapKm, roverKm, samples }, index) => {
       if (!from || !to) return null;
       return <section className="direction-leg" key={index}>
-        <h2>{nameOf(from)} → {nameOf(to)}</h2>
+        <h2>{stopName(from)} → {stopName(to)}</h2>
         {mapKm !== undefined && <div className="direction-overview">
           <strong>{distanceLabel(mapKm)}</strong>
           <small>Straight-line distance · Derived</small>
@@ -117,18 +114,18 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
         {mapKm !== undefined && <details className="science-section">
           <summary>Travel difficulty &amp; precautions</summary>
           <p>Travel difficulty · Unassessed</p>
-          <button type="button" className="layers-toggle directions-toggle" onClick={() => onOpenFindings(to)}>
+          {to !== landmarkId && <button type="button" className="layers-toggle directions-toggle" onClick={() => onOpenFindings(to)}>
             Open Findings for {nameOf(to)}
-          </button>
+          </button>}
           <dl className="direction-precautions">
           {[from, to].map(id => {
             const precaution = precautionByArea[id];
             return <div key={id}>
-              <dt>{nameOf(id)}</dt>
+              <dt>{stopName(id)}</dt>
               <dd>{precaution ? <><strong>{precaution.score}/5</strong> · {precaution.scope}
                 <small>Hydro assessment · <a href={cautions[id as keyof typeof cautions][1]} target="_blank" rel="noopener noreferrer">Evidence</a></small></>
                 : <>Unassessed
-                  {id !== to && <div><button type="button" className="layers-toggle directions-toggle" onClick={() => onOpenFindings(id)}>
+                  {id !== to && id !== landmarkId && <div><button type="button" className="layers-toggle directions-toggle" onClick={() => onOpenFindings(id)}>
                     Open Findings for {nameOf(id)}
                   </button></div>}
                 </>}</dd>
@@ -166,7 +163,7 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
         <a target="_blank" rel="noopener noreferrer" href={marsRadiusSource}>NASA JPL Mars distance reference</a>
       </details>
     </div>}
-    {[...new Set(stops.filter(Boolean))].map(id => <details className="direction-leg science-section" key={id}>
+    {[...new Set(stops.filter(id => id && id !== landmarkId))].map(id => <details className="direction-leg science-section" key={id}>
       <summary>{nameOf(id)} caution notes</summary><AreaCaution id={id} />
     </details>)}
   </section>;

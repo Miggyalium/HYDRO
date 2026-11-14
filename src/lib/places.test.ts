@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { entries, places, project, search } from './places';
+import { entries, places, project, search, unproject } from './places';
 import site from '../data/site.json';
 
 test('all ten anchors project inside the registered crater image', () => {
@@ -7,6 +7,9 @@ test('all ten anchors project inside the registered crater image', () => {
   const [west, south, east, north] = site.bboxProjectedM;
   for (const place of places) {
     const [x, y] = project(place.anchor);
+    const [lon, lat] = unproject([x, y]);
+    expect(lon).toBeCloseTo(place.anchor[0], 8);
+    expect(lat).toBeCloseTo(place.anchor[1], 8);
     expect(x).toBeGreaterThan(west);
     expect(x).toBeLessThan(east);
     expect(y).toBeGreaterThan(south);
