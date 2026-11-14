@@ -1,0 +1,141 @@
+[
+  {
+    "aliases": [
+      "Hogwallow Flats",
+      "Western Delta Front"
+    ],
+    "anchor": [
+      77.406164875,
+      18.458878275
+    ],
+    "id": "hawksbill-gap",
+    "positionStatus": "Historical rover reference near Skinner Ridge",
+    "details": [
+      {
+        "name": "Skinner Ridge",
+        "positionStatus": "Sample references documented in location ledger. Independent pin Unknown."
+      },
+      {
+        "name": "Wildcat Ridge",
+        "positionStatus": "Sample references documented in location ledger. Independent pin Unknown."
+      },
+      {
+        "name": "Devils Tanyard",
+        "positionStatus": "Exact position Unknown"
+      },
+      {
+        "name": "Sunset Hill",
+        "positionStatus": "Exact position Unknown"
+      },
+      {
+        "name": "Kibler Knob",
+        "positionStatus": "Exact position Unknown"
+      }
+    ],
+    "name": "Hawksbill Gap"
+  },
+  {
+    "aliases": [
+      "Kodiak Butte"
+    ],
+    "anchor": [
+      77.4091,
+      18.4381
+    ],
+    "id": "kodiak",
+    "positionStatus": "Approximate CTX-registered butte anchor",
+    "details": [],
+    "name": "Kodiak"
+  },
+  {
+    "aliases": [
+      "Cheyava Falls",
+      "Sapphire Canyon",
+      "Neretva Vallis"
+    ],
+    "anchor": [
+      77.30514915,
+      18.49747434
+    ],
+    "id": "bright-angel",
+    "positionStatus": "Sapphire Canyon sample locality",
+    "details": [],
+    "name": "Bright Angel"
+  },
+  {
+    "aliases": [
+      "Lefroy Bay",
+      "Turquoise Bay"
+    ],
+    "anchor": [
+      77.34704595,
+      18.48867278
+    ],
+    "id": "margin-unit",
+    "positionStatus": "Lefroy Bay sample locality",
+    "details": [],
+    "name": "Margin Unit"
+  },
+  {
+    "aliases": [
+      "Séítah",
+      "Seitah",
+      "Salette",
+      "Dourbes",
+      "Coulettes"
+    ],
+    "anchor": [
+      77.44301,
+      18.43397
+    ],
+    "id": "brac",
+    "positionStatus": "Published sampling workspace",
+    "details": [],
+    "name": "Brac"
+  },
+  {
+    "aliases": [
+      "Máaz",
+      "Maaz",
+      "Montdenier",
+      "Artuby Ridge",
+      "Montagnac"
+    ],
+    "anchor": [
+      77.44437,
+      18.43074
+    ],
+    "id": "rochette",
+    "positionStatus": "Published sampling workspace",
+    "details": [],
+    "name": "Rochette"
+  },
+  {
+    "aliases": [
+      "Northern Inlet",
+      "Sava"
+    ],
+    "anchor": [
+      77.54596,
+      18.735673
+    ],
+    "id": "sava-vallis",
+    "positionStatus": "Representative northern inlet trace point",
+    "details": [],
+    "name": "Sava Vallis"
+  },
+  {
+    "aliases": [
+      "Eastern Outlet",
+      "Pliva"
+    ],
+    "anchor": [
+      78.081618,
+      18.531017
+    ],
+    "id": "pliva-vallis",
+    "positionStatus": "Representative eastern outlet trace point",
+    "details": [],
+    "name": "Pliva Vallis"
+  }
+]

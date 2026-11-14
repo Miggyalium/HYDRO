@@ -1,0 +1,15 @@
+{
+  "id": "ctx",
+  "name": "CTX optical",
+  "path": "assets/ctx/jezero-ctx-20m.png",
+  "type": "image",
+  "defaultVisible": true,
+  "credit": "NASA/JPL/MSSS/The Murray Lab",
+  "boundsProjectedM": [
+    4558224.239542249,
+    1055086.7226951488,
+    4635284.239542249,
+    1132146.7226951488
+  ],
+  "sourcePage": "https://murray-lab.caltech.edu/CTX/V01/TilePages/"
+}

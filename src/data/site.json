@@ -1,0 +1,37 @@
+{
+  "status": "eight-area-approved-handoff",
+  "name": "Jezero Crater",
+  "projection": {
+    "name": "Mars equirectangular",
+    "proj4": "+proj=eqc +lat_ts=0 +lon_0=0 +R=3396190 +units=m +no_defs",
+    "coordinates": "Mars planetocentric longitude east, latitude north"
+  },
+  "bboxProjectedM": [
+    4558224.239542249,
+    1055086.7226951488,
+    4635284.239542249,
+    1132146.7226951488
+  ],
+  "centerProjectedM": [
+    4596754.239542249,
+    1093616.7226951488
+  ],
+  "areas": [
+    "hawksbill-gap",
+    "kodiak",
+    "bright-angel",
+    "margin-unit",
+    "brac",
+    "rochette",
+    "sava-vallis",
+    "pliva-vallis"
+  ],
+  "routingCoverageMask": null,
+  "walkingAccess": "Unknown",
+  "directions": {
+    "audit": "research/western-network-audit.json",
+    "records": "research/western-network-positions.csv",
+    "policy": "DIRECTIONS_EVIDENCE.md",
+    "pairLookup": "data/directions-pairs.json"
+  }
+}
