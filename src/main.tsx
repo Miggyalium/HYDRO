@@ -11,6 +11,7 @@ import ctx from './data/ctx.json';
 import { entries, places, project, search, type Entry } from './lib/places';
 import 'ol/ol.css';
 import './style.css';
+import { ScienceCard } from './ScienceCard';
 
 function App() {
   const target = useRef<HTMLDivElement>(null);
@@ -96,10 +97,7 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        {selected && !open && <article className="surface" aria-live="polite">
-          <h1>{selected.name}</h1>
-          <p>{selected.nested ? 'Hawksbill Gap · Independent pin Unknown' : selected.place.positionStatus}</p>
-        </article>}
+        {selected && !open && <ScienceCard key={selected.key} entry={selected} onSelect={select} />}
       </section>
       <span className="map-title" aria-hidden="true">Jezero Crater</span>
       <a className="credit" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>

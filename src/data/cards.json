@@ -1,0 +1,194 @@
+[
+  {
+    "photo": {
+      "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "path": "photos/skinner-wildcat-nasa-annotated.png",
+      "source": "https://science.nasa.gov/resource/two-perseverance-sampling-locations-in-jezeros-delta/",
+      "credit": "NASA/JPL-Caltech/ASU/MSSS",
+      "caption": "Perseverance annotated view of the Skinner Ridge and Wildcat Ridge sampling locations."
+    },
+    "summary": "Delta-front sediments record deposition and later alteration.",
+    "id": "hawksbill-gap",
+    "source": "https://pds-geosciences.wustl.edu/missions/mars2020/returned_sample_science.htm",
+    "position": "Historical rover reference near Skinner Ridge",
+    "details": [
+      {
+        "summary": "Swift Run and Skyland sandstone records",
+        "photo": {
+          "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "path": "photos/skinner-wildcat-nasa-annotated.png",
+          "source": "https://science.nasa.gov/resource/two-perseverance-sampling-locations-in-jezeros-delta/",
+          "credit": "NASA/JPL-Caltech/ASU/MSSS",
+          "caption": "Perseverance annotated view of the Skinner Ridge and Wildcat Ridge sampling locations."
+        },
+        "source": "https://pds-geosciences.wustl.edu/missions/mars2020/returned_sample_science.htm",
+        "figure": null,
+        "position": "Sample references documented in location ledger. Independent pin Unknown.",
+        "name": "Skinner Ridge"
+      },
+      {
+        "summary": "Fine-grained sediments and sand-filled fractures",
+        "photo": {
+          "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "path": "photos/skinner-wildcat-nasa-annotated.png",
+          "source": "https://science.nasa.gov/resource/two-perseverance-sampling-locations-in-jezeros-delta/",
+          "credit": "NASA/JPL-Caltech/ASU/MSSS",
+          "caption": "Perseverance annotated view of the Skinner Ridge and Wildcat Ridge sampling locations."
+        },
+        "source": "https://pds-geosciences.wustl.edu/missions/mars2020/returned_sample_science.htm",
+        "figure": null,
+        "position": "Sample references documented in location ledger. Independent pin Unknown.",
+        "name": "Wildcat Ridge"
+      },
+      {
+        "summary": "Laminated sandstone and altered textures",
+        "photo": {
+          "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "path": "photos/hogwallow-flats-pia25672.jpg",
+          "source": "https://science.nasa.gov/photojournal/perseverances-mastcam-z-views-hogwallow-flats/",
+          "credit": "NASA/JPL-Caltech/ASU/MSSS",
+          "caption": "Perseverance Mastcam-Z enhanced-color view of Hogwallow Flats. Shared regional context."
+        },
+        "source": "https://doi.org/10.1029/2023JE008187",
+        "figure": {
+          "label": "Figure 18a",
+          "url": "https://doi.org/10.1029/2023JE008187"
+        },
+        "position": "Exact position Unknown",
+        "name": "Devils Tanyard"
+      },
+      {
+        "summary": "Layered exposure and Rose River Falls abrasion context",
+        "photo": {
+          "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "path": "photos/hogwallow-flats-pia25672.jpg",
+          "source": "https://science.nasa.gov/photojournal/perseverances-mastcam-z-views-hogwallow-flats/",
+          "credit": "NASA/JPL-Caltech/ASU/MSSS",
+          "caption": "Perseverance Mastcam-Z enhanced-color view of Hogwallow Flats. Shared regional context."
+        },
+        "source": "https://doi.org/10.1029/2023JE008187",
+        "figure": {
+          "label": "Figure 18b",
+          "url": "https://doi.org/10.1029/2023JE008187"
+        },
+        "position": "Exact position Unknown",
+        "name": "Sunset Hill"
+      },
+      {
+        "summary": "Block group and tentative mineral context",
+        "photo": {
+          "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "path": "photos/hogwallow-flats-pia25672.jpg",
+          "source": "https://science.nasa.gov/photojournal/perseverances-mastcam-z-views-hogwallow-flats/",
+          "credit": "NASA/JPL-Caltech/ASU/MSSS",
+          "caption": "Perseverance Mastcam-Z enhanced-color view of Hogwallow Flats. Shared regional context."
+        },
+        "source": "https://doi.org/10.1029/2023JE008187",
+        "figure": {
+          "label": "Figure 19d",
+          "url": "https://doi.org/10.1029/2023JE008187"
+        },
+        "position": "Exact position Unknown",
+        "name": "Kibler Knob"
+      }
+    ]
+  },
+  {
+    "photo": {
+      "reuse": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+      "path": "photos/kodiak-pia24802.jpg",
+      "source": "https://www.jpl.nasa.gov/images/pia24802-perseverance-captures-image-of-kodiak/",
+      "credit": "NASA/JPL-Caltech/ASU/MSSS",
+      "caption": "Perseverance view of layered sediments at Kodiak."
+    },
+    "summary": "Inclined sediment layers record water-driven deposition.",
+    "id": "kodiak",
+    "source": "https://doi.org/10.1029/2026JE009882",
+    "position": "Approximate CTX-registered butte anchor",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+      "path": "photos/bright-angel-pia26336.png",
+      "source": "https://www.jpl.nasa.gov/images/pia26336-perseverance-views-bright-angel/",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "Perseverance Navcam view of Bright Angel."
+    },
+    "summary": "River-valley sediment and later chemical reactions preserve clues to past environments.",
+    "id": "bright-angel",
+    "source": "https://doi.org/10.1038/s41586-025-09413-0",
+    "position": "Sapphire Canyon sample locality",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+      "path": "photos/margin-unit-pia26815.jpg",
+      "source": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+      "credit": "NASA/JPL-Caltech/MSSS",
+      "caption": "Turquoise Bay panorama showing regional Margin Unit context."
+    },
+    "summary": "Carbonates and silica help trace water–rock interaction.",
+    "id": "margin-unit",
+    "source": "https://pds-geosciences.wustl.edu/missions/mars2020/returned_sample_science.htm",
+    "position": "Lefroy Bay sample locality",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "path": "photos/brac-salette.png",
+      "source": "https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/#salette",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "Right Navcam view after Salette sampling at Brac."
+    },
+    "summary": "Secondary carbonate and sulfates at Dourbes support past water–rock interaction.",
+    "id": "brac",
+    "source": "https://doi.org/10.1029/2022JE007474",
+    "position": "Published sampling workspace",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "path": "photos/rochette-montagnac.png",
+      "source": "https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/#montagnac",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "Right Navcam view after Montagnac sampling at Rochette."
+    },
+    "summary": "Altered basalt at Artuby Ridge records a different part of the crater-floor story.",
+    "id": "rochette",
+    "source": "https://doi.org/10.1029/2022JE007474",
+    "position": "Published sampling workspace",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "path": "photos/sava-ctx-review.png",
+      "source": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "credit": "NASA/JPL/MSSS/The Murray Lab",
+      "caption": "Derived annotated CTX crop"
+    },
+    "summary": "A northern tributary fed Jezero’s ancient lake.",
+    "id": "sava-vallis",
+    "source": "https://planetarynames.wr.usgs.gov/Feature/15904",
+    "position": "Representative northern inlet trace point",
+    "details": []
+  },
+  {
+    "photo": {
+      "reuse": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "path": "photos/pliva-ctx-review.png",
+      "source": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "credit": "NASA/JPL/MSSS/The Murray Lab",
+      "caption": "Derived annotated CTX crop"
+    },
+    "summary": "Outlet landforms record episodic discharge from Jezero.",
+    "id": "pliva-vallis",
+    "source": "https://planetarynames.wr.usgs.gov/Feature/15903",
+    "position": "Representative eastern outlet trace point",
+    "details": []
+  }
+]

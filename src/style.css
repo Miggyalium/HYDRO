@@ -21,3 +21,19 @@ form input { padding-left: .65rem; }
   .map-title { display: none; }
   .masthead { padding-inline: .9rem; gap: .65rem; }
 }
+
+.science-card { max-height: min(72vh, calc(100dvh - 10rem)); }
+.science-card h1 { font-size: 1.35rem; }
+.science-card h2, .photo-viewer h2 { font-size: 1.1rem; }
+.science-card figure, .photo-viewer figure { margin: .8rem 0; }
+.card-photo { display: block; width: 100%; max-height: 11rem; object-fit: contain; background: #15110e; border-radius: .65rem; }
+.science-card figcaption, .photo-viewer figcaption, .position-note { font-size: .85rem; color: #e3cab7; margin-top: .35rem; }
+.science-card .photo-action { width: 100%; background: #a04417; border-radius: .65rem; padding: .55rem; font-weight: 600; }
+.science-card .photo-action:hover { background: #8b3813; }
+.science-links { display: flex; flex-wrap: wrap; gap: .4rem .9rem; margin: .65rem 0; }
+.science-links a { color: #ffd1ab; }
+.photo-viewer { color: inherit; background: #251c16; border: 1px solid #8a5c3d; border-radius: 1rem; width: min(56rem, calc(100% - 2rem)); max-height: 92dvh; }
+.photo-viewer::backdrop { background: #140f0adb; }
+.photo-viewer img { display: block; max-width: 100%; width: 100%; max-height: 65dvh; object-fit: contain; background: #15110e; border-radius: .7rem; }
+.photo-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.photo-header form button { min-height: 2.5rem; }
