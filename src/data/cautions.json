@@ -1,0 +1,10 @@
+{
+  "hawksbill-gap": ["Fractures, loose material and blocks are documented at individual western fan outcrops.", "https://doi.org/10.1029/2023JE008187"],
+  "kodiak": ["The detached butte and surrounding scarps provide terrain context. Approach clearance is Unknown.", "https://science.nasa.gov/photojournal/jezero-craters-kodiak-and-scarps/"],
+  "bright-angel": ["NASA reported ridge boulders affecting the rover approach and a dune detour via Dunraven Pass.", "https://www.nasa.gov/missions/mars-2020-perseverance/perseverance-rover/nasas-perseverance-fords-an-ancient-river-to-reach-science-target/"],
+  "margin-unit": ["Regional relief provides context. Verified obstacles at Lefroy Bay are Unknown.", "https://www.dlr.de/en/latest/news/2020/03/20200929_topography-of-jezero-crater"],
+  "brac": ["A Salette core fragment detached after rover sampling. Local footing is Unknown.", "https://doi.org/10.1029/2022JE007474"],
+  "rochette": ["The target block moved slightly during rover coring. Surrounding ground stability is Unknown.", "https://doi.org/10.1029/2022JE007474"],
+  "sava-vallis": ["Orbital imagery shows the inlet and valley relief. Located hazards and local access are Unknown.", "https://www.dlr.de/en/latest/news/2020/03/20200929_topography-of-jezero-crater"],
+  "pliva-vallis": ["The incised outlet and terraces provide terrain context. Located hazards and local access are Unknown.", "https://doi.org/10.1029/2024JE008862"]
+}

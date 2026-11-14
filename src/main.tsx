@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import Feature from 'ol/Feature.js';
+import MultiPoint from 'ol/geom/MultiPoint.js';
+import VectorLayer from 'ol/layer/Vector.js';
+import VectorSource from 'ol/source/Vector.js';
+import Style from 'ol/style/Style.js';
+import CircleStyle from 'ol/style/Circle.js';
+import Fill from 'ol/style/Fill.js';
 import { createRoot } from 'react-dom/client';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
@@ -12,6 +19,7 @@ import { entries, places, project, search, type Entry } from './lib/places';
 import 'ol/ol.css';
 import './style.css';
 import { ScienceCard } from './ScienceCard';
+import { Directions } from './Directions';
 import { elevationRange, makeTerrainLayers, terrain } from './terrain';
 
 function App() {
@@ -20,11 +28,18 @@ function App() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Entry>();
+  const [directionsOpen, setDirectionsOpen] = useState(false);
+  const [trackSource] = useState(() => new VectorSource<Feature<MultiPoint>>());
+  const updateTrack = useCallback((points: number[][]) => {
+    trackSource.clear();
+    if (points.length) trackSource.addFeature(new Feature(new MultiPoint(points)));
+  }, [trackSource]);
   const terrainLayers = useRef<ReturnType<typeof makeTerrainLayers>>([]);
   const [visibleTerrain, setVisibleTerrain] = useState(() => terrain.map(layer => layer.defaultVisible));
   const [layersOpen, setLayersOpen] = useState(false);
   const results = search(query);
   function select(entry: Entry) {
+    setDirectionsOpen(false);
     setSelected(entry);
     setQuery(entry.name);
     setOpen(false);
@@ -44,7 +59,10 @@ function App() {
       target: target.current!, view,
       layers: [new ImageLayer({ source: new ImageStatic({
         url: import.meta.env.BASE_URL + ctx.path, imageExtent: ctx.boundsProjectedM, projection,
-      }) }), ...overlays],
+      }) }), ...overlays, new VectorLayer({
+        source: trackSource,
+        style: new Style({ image: new CircleStyle({ radius: 2, fill: new Fill({ color: '#ff963f' }) }) }),
+      })],
     });
     const markers = places.map(place => {
       const button = document.createElement('button');
@@ -79,7 +97,7 @@ function App() {
       surface.removeEventListener('hydro-selection', listener);
       map.dispose();
     };
-  }, []);
+  }, [trackSource]);
   useEffect(() => {
     terrainLayers.current.forEach((layer, index) => layer.setVisible(visibleTerrain[index]));
   }, [visibleTerrain]);
@@ -106,7 +124,12 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        {selected && !open && <ScienceCard key={selected.key} entry={selected} onSelect={select} />}
+        <button className="layers-toggle directions-toggle" type="button" aria-expanded={directionsOpen}
+          onClick={() => { setOpen(false); setLayersOpen(false); setDirectionsOpen(!directionsOpen); }}>
+          {directionsOpen ? 'Close Directions' : 'Directions'}
+        </button>
+        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} />}
+        {selected && !open && !directionsOpen && <ScienceCard key={selected.key} entry={selected} onSelect={select} />}
       </section>
       <span className="map-title" aria-hidden="true">Jezero Crater</span>
       <div className="layer-control">
@@ -132,12 +155,12 @@ function App() {
       </div>
       <div className="terrain-credits">
         {terrain.filter((_, index) => visibleTerrain[index]).map(layer => <div key={layer.id}>
-          <a href={layer.sourcePage}>{layer.name} · {layer.credit}</a>
-          {layer.licenseUrl && <> · <a href={layer.licenseUrl}>{layer.license}</a>
-            {' · '}<a href={import.meta.env.BASE_URL + 'assets/HRSC-LICENSE.md'}>Adaptation notes</a></>}
+          <a target="_blank" rel="noopener noreferrer" href={layer.sourcePage}>{layer.name} · {layer.credit}</a>
+          {layer.licenseUrl && <> · <a target="_blank" rel="noopener noreferrer" href={layer.licenseUrl}>{layer.license}</a>
+            {' · '}<a target="_blank" rel="noopener noreferrer" href={import.meta.env.BASE_URL + 'assets/HRSC-LICENSE.md'}>Adaptation notes</a></>}
         </div>)}
       </div>
-      <a className="credit" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>
+      <a target="_blank" rel="noopener noreferrer" className="credit" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>
     </main>
   </>;
 }

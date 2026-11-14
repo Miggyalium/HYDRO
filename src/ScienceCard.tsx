@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { AreaCaution } from './Directions';
 import cards from './data/cards.json';
 import { entries, type Entry } from './lib/places';
 
@@ -27,11 +28,16 @@ export function ScienceCard({ entry, onSelect }: {
     </figure>
     <button type="button" className="photo-action" onClick={() => viewer.current?.showModal()}>View photo</button>
     <div className="science-links">
-      {card.source && <a href={card.source}>Science source</a>}
-      {figure && <a href={figure.url}>Published {figure.label}</a>}
-      <a href={photo.source}>Image source</a>
+      {card.source && <a target="_blank" rel="noopener noreferrer" href={card.source}>Science source</a>}
+      {figure && <a target="_blank" rel="noopener noreferrer" href={figure.url}>Published {figure.label}</a>}
+      <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
     </div>
     <small>Image credit · {photo.credit}</small>
+    <section>
+      <h2>{entry.nested ? 'Hawksbill Gap caution' : 'Terrain caution'}</h2>
+      <AreaCaution id={entry.place.id} />
+      <small>Local slope, footing and walking access · Unknown</small>
+    </section>
     {!entry.nested && group && group.details.length > 0 && <section>
       <h2>Hawksbill Gap outcrops</h2>
       <ul>{entries.filter(item => item.nested && item.place.id === entry.place.id).map(item =>
@@ -49,8 +55,8 @@ export function ScienceCard({ entry, onSelect }: {
       </figure>
       <p>Image credit · {photo.credit}</p>
       <div className="science-links">
-        <a href={photo.source}>Image source</a>
-        {photo.reuse && <a href={photo.reuse}>Image use terms</a>}
+        <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
+        {photo.reuse && <a target="_blank" rel="noopener noreferrer" href={photo.reuse}>Image use terms</a>}
       </div>
     </dialog>
   </article>;

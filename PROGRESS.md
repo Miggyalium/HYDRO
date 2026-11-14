@@ -24,3 +24,13 @@ The Layers control adds HRSC areoid elevation, HRSC hillshade, CTX hillshade, an
 Type check, existing Vitest tests, and production build passed. All four built assets matched the kit by SHA-256. Browser rendering and console checks remain pending. Vite reports a bundle size warning.
 
 Review the optical default, each terrain view, contour alignment and weight at the rim, the CTX coverage edge, and the credits. Try a science card while a terrain layer is active.
+
+## Stage 4 · Cautions and Directions
+
+Added sourced area cautions and a Directions panel with start, destination and optional stops. Consecutive legs show recorded rover direction where available. Orange dots mark individual archived positions without connecting gaps. Walking access, retreat and walking time remain Unknown.
+
+Type check, existing tests and production build passed. All ten historical slices matched the expected endpoint clocks and record counts. Browser and console review remains pending. Vite still reports the bundle size warning.
+
+Review Margin Unit to Bright Angel and reverse the selection. The recorded direction should stay the same. Then choose Kodiak to Pliva Vallis and check that only terrain context appears and all rover dots clear. Add a stop, toggle the dots, and check the cautions and source links in Directions and a science card.
+Stage 4 distance update: Added derived straight-line distance for all 28 area pairs and historical rover distance for the ten archived slices. Walking distance remains Unknown. Verified all pairs, reverse symmetry and a quarter-circle reference. Existing tests and production build passed. Review one historical pair and one terrain-only pair in Directions.
+Stage 4 link update: Source, credit, license and adaptation links open in a separate browser tab. Review with a science card and a Directions source link.

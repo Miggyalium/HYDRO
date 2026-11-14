@@ -1,0 +1,374 @@
+{
+  "records": "research/western-network-positions.csv",
+  "policy": "DIRECTIONS_EVIDENCE.md",
+  "pairs": [
+    {
+      "areas": [
+        "hawksbill-gap",
+        "kodiak"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "bright-angel"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "hawksbill-gap",
+        "recordedTo": "bright-angel",
+        "firstSclk": 711419599,
+        "lastSclk": 772493772,
+        "recordCount": 12470
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "margin-unit"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "hawksbill-gap",
+        "recordedTo": "margin-unit",
+        "firstSclk": 711419599,
+        "lastSclk": 749772436,
+        "recordCount": 6909
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "brac"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "brac",
+        "recordedTo": "hawksbill-gap",
+        "firstSclk": 688956913,
+        "lastSclk": 711419599,
+        "recordCount": 6058
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "rochette"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "rochette",
+        "recordedTo": "hawksbill-gap",
+        "firstSclk": 684608509,
+        "lastSclk": 711419599,
+        "recordCount": 6382
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "hawksbill-gap",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "bright-angel"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "margin-unit"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "brac"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "rochette"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "kodiak",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "bright-angel",
+        "margin-unit"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "margin-unit",
+        "recordedTo": "bright-angel",
+        "firstSclk": 749772436,
+        "lastSclk": 772493772,
+        "recordCount": 5562
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "bright-angel",
+        "brac"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "brac",
+        "recordedTo": "bright-angel",
+        "firstSclk": 688956913,
+        "lastSclk": 772493772,
+        "recordCount": 18527
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "bright-angel",
+        "rochette"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "rochette",
+        "recordedTo": "bright-angel",
+        "firstSclk": 684608509,
+        "lastSclk": 772493772,
+        "recordCount": 18851
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "bright-angel",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "bright-angel",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "margin-unit",
+        "brac"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "brac",
+        "recordedTo": "margin-unit",
+        "firstSclk": 688956913,
+        "lastSclk": 749772436,
+        "recordCount": 12966
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "margin-unit",
+        "rochette"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "rochette",
+        "recordedTo": "margin-unit",
+        "firstSclk": 684608509,
+        "lastSclk": 749772436,
+        "recordCount": 13290
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "margin-unit",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "margin-unit",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "brac",
+        "rochette"
+      ],
+      "evidence": "Historical rover track",
+      "historicalTrack": {
+        "recordedFrom": "rochette",
+        "recordedTo": "brac",
+        "firstSclk": 684608509,
+        "lastSclk": 688956913,
+        "recordCount": 325
+      },
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "brac",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "brac",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "rochette",
+        "sava-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "rochette",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    },
+    {
+      "areas": [
+        "sava-vallis",
+        "pliva-vallis"
+      ],
+      "evidence": "Terrain and destination context",
+      "historicalTrack": null,
+      "walkingAccess": "Unknown",
+      "retreatAccess": "Unknown",
+      "walkingTime": "Unknown"
+    }
+  ]
+}
