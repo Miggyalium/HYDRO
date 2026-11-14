@@ -9,6 +9,8 @@ import ImageStatic from 'ol/source/ImageStatic.js';
 import VectorSource from 'ol/source/Vector.js';
 import Stroke from 'ol/style/Stroke.js';
 import Style from 'ol/style/Style.js';
+import Text from 'ol/style/Text.js';
+import Fill from 'ol/style/Fill.js';
 import data from './data/terrain.json';
 import { project } from './lib/places';
 
@@ -17,7 +19,9 @@ export const terrain = data;
 export const elevationRange = [-3085, -541] as const;
 const ramp = ['#302044', '#895041', '#f8d293'];
 const ordinaryContour = new Style({ stroke: new Stroke({ color: '#fff2d9cc', width: 1 }) });
-const indexContour = new Style({ stroke: new Stroke({ color: '#ffad62', width: 2 }) });
+const indexStroke = new Stroke({ color: '#fff2d9', width: 1.4 });
+const indexContour = new Style({ stroke: indexStroke });
+const labeledContours = new Map<number, Style>();
 
 export function makeTerrainLayers(projection: Projection) {
   const geographic = new Projection({ code: 'Mars planetocentric east/north', units: 'degrees' });
@@ -43,8 +47,23 @@ export function makeTerrainLayers(projection: Projection) {
     if (record.type === 'vector') {
       return new VectorLayer({
         ...options,
+        declutter: true,
         source: new VectorSource({ url, format: new GeoJSON({ dataProjection: geographic }) }),
-        style: feature => feature.get('index_contour') ? indexContour : ordinaryContour,
+        style: (feature, resolution) => {
+          if (!feature.get('index_contour')) return ordinaryContour;
+          const level = feature.get('elevation_m');
+          if (resolution > 150 || typeof level !== 'number') return indexContour;
+          let style = labeledContours.get(level);
+          if (!style) {
+            style = new Style({ stroke: indexStroke, text: new Text({
+              text: String(level), placement: 'line', font: '600 12px system-ui',
+              fill: new Fill({ color: '#fff2d9' }), stroke: new Stroke({ color: '#25160d', width: 3 }),
+              padding: [2, 4, 2, 4],
+            }) });
+            labeledContours.set(level, style);
+          }
+          return style;
+        },
       });
     }
     return new ImageLayer({

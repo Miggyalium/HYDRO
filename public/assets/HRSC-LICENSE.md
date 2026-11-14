@@ -13,3 +13,5 @@ DLR's HRSC site terms apply CC BY-SA 3.0 IGO to downloadable HRSC terrain models
 | contours/hrsc-contours-50m.geojson | Derived 50 m contours with 100 m index lines for the Jezero overview. |
 
 Keep the source, visible credit, license link and relevant change notice with the displayed and downloadable data. Preserve source notices and use the same license for the adaptations. Keep the assets under their data license and avoid implying endorsement. Deployment verification remains pending.
+
+**Optical composite:** `ctx/jezero-ctx-hrsc-color.jpg` uses the HMC_13E10_co5.tif RGB mosaic (ESA/DLR/FU Berlin, CC BY-SA 3.0 IGO) and the existing MRO CTX Jezero crop (NASA/JPL/MSSS/The Murray Lab). HRSC color was reprojected to the CTX grid, bilinearly sampled, and combined with CTX luminance. The composite is distributed under CC BY-SA 3.0 IGO. Its fine spatial texture comes from CTX, while the source color grid is 50 m. The project crop was fully covered by valid color samples.

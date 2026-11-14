@@ -6,7 +6,6 @@ export function HistoricalConditions({ id, nested }: { id: string; nested: boole
     : conditions.readings.filter(reading => reading.area === id);
 
   return <section className="historical-conditions">
-    <h2>Historical conditions</h2>
     {readings.length === 0 ? <p>Historical MEDA readings · Unknown</p> : <>
       <p>{campaign ? 'Perseverance campaign context. Individual outcrop readings are Unknown.'
         : 'Perseverance workspace observation.'} Current conditions · Unknown.</p>

@@ -17,6 +17,7 @@ import ImageLayer from 'ol/layer/Image.js';
 import ImageStatic from 'ol/source/ImageStatic.js';
 import site from './data/site.json';
 import ctx from './data/ctx.json';
+import cards from './data/cards.json';
 import vikingContext from './data/viking-context.json';
 import { entries, places, project, search, type Entry } from './lib/places';
 import 'ol/ol.css';
@@ -36,6 +37,17 @@ const vikingContextExtent = [
 ];
 // Native bounds of the Murray Lab E076_N16 tile; regional preview is downsampled.
 const regionalExtent = [4504877.011771274, 948395.1603728997, 4741975.801864498, 1185493.9504661246];
+const hrscColorPath = 'assets/ctx/jezero-ctx-hrsc-color.jpg';
+const hrscColorSource = 'https://hrscteam.dlr.de/public/data/HMC30/quads.php?quad=mc13e';
+
+function RailButton({ label, preview, expanded, pressed, onClick }: {
+  label: string; preview?: string; expanded?: boolean; pressed?: boolean; onClick: () => void;
+}) {
+  return <button type="button" aria-label={label} aria-expanded={expanded} aria-pressed={pressed} onClick={onClick}>
+    {preview && <img src={import.meta.env.BASE_URL + preview} alt="" loading="lazy" />}
+    <span aria-hidden="true">{label}</span>
+  </button>;
+}
 
 function App() {
   const target = useRef<HTMLDivElement>(null);
@@ -55,10 +67,12 @@ function App() {
   const terrainLayers = useRef<ReturnType<typeof makeTerrainLayers>>([]);
   const [visibleTerrain, setVisibleTerrain] = useState(() => terrain.map(layer => layer.defaultVisible));
   const [layersOpen, setLayersOpen] = useState(false);
-  const [warmOptical, setWarmOptical] = useState(true);
+  const [colorOptical, setColorOptical] = useState(true);
+  const colorLayer = useRef<ImageLayer<ImageStatic> | null>(null);
   const [surfaceViewsOpen, setSurfaceViewsOpen] = useState(false);
   const results = search(query);
   function select(entry: Entry) {
+    setLayersOpen(false);
     setFindings(undefined);
     setDirectionsOpen(false);
     setSelected(entry);
@@ -79,6 +93,8 @@ function App() {
     const optical = (url: string, imageExtent: number[], maxResolution?: number, className?: string) =>
       new ImageLayer({ className, maxResolution, source: new ImageStatic({ url, imageExtent, projection }) });
     const overlays = makeTerrainLayers(projection);
+    const measuredColor = optical(import.meta.env.BASE_URL + hrscColorPath, ctx.boundsProjectedM, 160);
+    colorLayer.current = measuredColor;
     terrainLayers.current = overlays;
     const map = new Map({
       target: surface, view, pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
@@ -87,6 +103,7 @@ function App() {
         optical(import.meta.env.BASE_URL + vikingContext.path, vikingContextExtent),
         optical(import.meta.env.BASE_URL + 'assets/ctx/jezero-regional-ctx.jpg', regionalExtent, 1000, 'ctx-optical'),
         optical(import.meta.env.BASE_URL + ctx.path, ctx.boundsProjectedM, 160, 'ctx-optical'),
+        measuredColor,
         ...overlays, new VectorLayer({
         source: trackSource,
         style: new Style({ image: new CircleStyle({ radius: 2, fill: new Fill({ color: '#ff963f' }) }) }),
@@ -175,6 +192,9 @@ function App() {
     };
   }, [intro, trackSource]);
   useEffect(() => {
+    colorLayer.current?.setVisible(colorOptical);
+  }, [intro, colorOptical]);
+  useEffect(() => {
     terrainLayers.current.forEach((layer, index) => layer.setVisible(visibleTerrain[index]));
   }, [intro, visibleTerrain]);
   useEffect(() => {
@@ -185,7 +205,28 @@ function App() {
   return <>
     <header className="masthead"><img src={import.meta.env.BASE_URL + 'hydro-wordmark.png'} alt="Hydro" /><span>Uncover Jezero’s water</span></header>
     {!intro && <main>
-      <div className={warmOptical ? 'map warm-optical' : 'map'} ref={target} tabIndex={0} aria-label="Interactive Jezero Crater map" />
+      <div className="map" ref={target} tabIndex={0} aria-label="Interactive Jezero Crater map" />
+      <nav className="map-tool-rail" aria-label="Map tools">
+        <div className="rail-features" role="group" aria-label="Features">
+        <RailButton label="Directions" preview="photos/pliva-ctx-review.png" expanded={directionsOpen && !open}
+          onClick={() => { setFindings(undefined); setOpen(false); setLayersOpen(false); setDirectionsOpen(open || !directionsOpen); }} />
+        <RailButton label="Findings" preview="photos/brac-salette.png" expanded={Boolean(findings) && !open}
+          onClick={() => {
+            setOpen(false);
+            setLayersOpen(false);
+            setDirectionsOpen(false);
+            setFindings(findings && !open ? undefined : { area: selected?.place.id ?? '', startNew: false });
+          }} />
+        <RailButton label="Surface views" preview="photos/margin-unit-pia26815.jpg" onClick={() => setSurfaceViewsOpen(true)} />
+        </div>
+        <div className="rail-places" role="group" aria-label="Jezero locations">
+          <span className="rail-section-label" aria-hidden="true">Locations</span>
+          {entries.filter(entry => !entry.nested).map(entry => <RailButton key={entry.key}
+            label={entry.name} preview={cards.find(card => card.id === entry.key)?.photo.path}
+            pressed={selected?.place.id === entry.key && !open && !directionsOpen && !findings}
+            onClick={() => select(entry)} />)}
+        </div>
+      </nav>
       <section className="panel" aria-label="Jezero search" onKeyDown={event => {
         if (event.key === 'Escape' && open) { input.current?.focus(); setOpen(false); }
       }}>
@@ -203,17 +244,6 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        <button className="layers-toggle directions-toggle" type="button" aria-expanded={directionsOpen}
-          onClick={() => { setFindings(undefined); setOpen(false); setLayersOpen(false); setDirectionsOpen(!directionsOpen); }}>
-          {directionsOpen ? 'Close Directions' : 'Directions'}
-        </button>
-        <button className="layers-toggle findings-toggle" type="button" aria-expanded={Boolean(findings)}
-          onClick={() => {
-            setOpen(false);
-            setLayersOpen(false);
-            setDirectionsOpen(false);
-            setFindings(findings ? undefined : { area: selected?.place.id ?? '', startNew: false });
-          }}>{findings ? 'Close Findings' : 'Findings'}</button>
         {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} />}
         {findings && <div hidden={open}><Findings {...findings} /></div>}
         {selected && !open && !directionsOpen && !findings && <ScienceCard key={selected.key} entry={selected} onSelect={select}
@@ -225,14 +255,19 @@ function App() {
       <div className="map-title"><span aria-hidden="true" /> Hydro study area <small>Jezero Crater and nearby sites</small></div>
       <div className="layer-control">
         {layersOpen && <section id="terrain-options" className="surface" aria-label="Map layers">
-          <label><input type="checkbox" checked={warmOptical} onChange={event => setWarmOptical(event.target.checked)} /> Warm optical colors</label>
+          <label><input type="checkbox" checked={colorOptical} onChange={event => setColorOptical(event.target.checked)} />
+            <img src={import.meta.env.BASE_URL + hrscColorPath} alt="" />
+            <span>HRSC color + CTX detail <small>Jezero overview</small></span>
+          </label>
           {terrain.map((layer, index) => <label key={layer.id}>
             <input type="checkbox" checked={visibleTerrain[index]} onChange={event => {
               const enabled = event.target.checked;
               setVisibleTerrain(previous => previous.map((value, i) =>
                 i === index ? enabled : enabled && layer.type !== 'vector' && terrain[i].type !== 'vector' ? false : value));
             }} />
-            {layer.name}
+            <img src={import.meta.env.BASE_URL + (layer.type === 'raster' ? 'assets/previews/elevation.png'
+              : layer.type === 'vector' ? 'assets/previews/contours.png' : layer.path)} alt="" />
+            <span>{layer.name}</span>
           </label>)}
           {visibleTerrain[0] && <p className="elevation-key">Derived elevation · {elevationRange[0]} to {elevationRange[1]} m relative to the Mars areoid
             <span aria-hidden="true" />
@@ -242,10 +277,12 @@ function App() {
           {visibleTerrain[2] && <p>CTX gaps show the underlying optical imagery.</p>}
           <p className="position-note">Slope and walking access · Unknown</p>
         </section>}
-        <button className="layers-toggle" type="button" aria-expanded={layersOpen}
+        <button className="layers-toggle map-layers-button" type="button" aria-expanded={layersOpen}
           aria-controls={layersOpen ? 'terrain-options' : undefined}
-          onClick={() => setLayersOpen(!layersOpen)}>Layers</button>
-        {' '}<button className="layers-toggle" type="button" onClick={() => setSurfaceViewsOpen(true)}>Surface views</button>
+          onClick={() => { setOpen(false); setLayersOpen(!layersOpen); }}>
+          <img src={import.meta.env.BASE_URL + 'assets/themis/dir-review.png'} alt="" />
+          <span>Layers</span>
+        </button>
       </div>
       <div className="terrain-credits">
         {terrain.filter((_, index) => visibleTerrain[index]).map(layer => <div key={layer.id}>
@@ -258,7 +295,9 @@ function App() {
       </div>
       <div className="credit map-credits">
         <a target="_blank" rel="noopener noreferrer" href={vikingSource}>{vikingCredit}</a>
-        {' · '}<a target="_blank" rel="noopener noreferrer" href={ctx.sourcePage}>MRO CTX{warmOptical ? ' (display tint)' : ''} · {ctx.credit}</a>
+        {' · '}<a target="_blank" rel="noopener noreferrer" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>
+        {colorOptical && <> · <a target="_blank" rel="noopener noreferrer" href={hrscColorSource}>HRSC color · ESA/DLR/FU Berlin</a>
+          {' · '}<a target="_blank" rel="noopener noreferrer" href={import.meta.env.BASE_URL + 'assets/HRSC-LICENSE.md'}>CC BY-SA 3.0 IGO · Adaptation notes</a></>}
       </div>
       {surfaceViewsOpen && <SurfaceViews onClose={() => setSurfaceViewsOpen(false)} />}
     </main>}

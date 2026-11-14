@@ -24,37 +24,42 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
 
   return <article className="surface science-card" aria-label="Science card">
     <h1>{entry.name}</h1>
+    <details className="science-section" name="science-info"><summary>Overview</summary>
     {entry.nested && <small>Hawksbill Gap · Independent pin Unknown</small>}
     <p>{card.summary}</p>
     <p className="position-note">{card.position}</p>
+    {card.source && <div className="science-links"><a target="_blank" rel="noopener noreferrer" href={card.source}>Science source</a></div>}
+    </details>
+    <details className="science-section" name="science-info"><summary>Images & 360° views</summary>
     <figure>
-      <img className="card-photo" src={imageUrl} alt={photo.caption} />
+      <img className="card-photo" src={imageUrl} alt={photo.caption} loading="lazy" />
       <figcaption>{photo.caption}</figcaption>
     </figure>
     <button type="button" className="photo-action" onClick={() => viewer.current?.showModal()}>Open image view</button>
     {panorama
       ? <button type="button" className="layers-toggle directions-toggle" onClick={() => setPanoramaOpen(true)}>360° look-around</button>
       : <p className="position-note">360° look-around · No verified panorama available</p>}
-    {panorama && panoramaOpen && <RoverPanorama panorama={panorama} onClose={() => setPanoramaOpen(false)} />}
     <div className="science-links">
-      {card.source && <a target="_blank" rel="noopener noreferrer" href={card.source}>Science source</a>}
       {figure && <a target="_blank" rel="noopener noreferrer" href={figure.url}>Published {figure.label}</a>}
       <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
     </div>
     <small>Image credit · {photo.credit}</small>
+    </details>
+    <details className="science-section" name="science-info"><summary>Historical conditions</summary>
     <HistoricalConditions id={entry.place.id} nested={entry.nested} />
-    <section>
-      <h2>{entry.nested ? 'Hawksbill Gap caution' : 'Terrain caution'}</h2>
+    </details>
+    <details className="science-section" name="science-info"><summary>Terrain cautions</summary>
       <AreaCaution id={entry.place.id} />
       <small>Local slope, footing and walking access · Unknown</small>
       <button className="layers-toggle directions-toggle" type="button" onClick={onNewFinding}>Add astronaut finding</button>
-    </section>
-    {!entry.nested && group && group.details.length > 0 && <section>
-      <h2>Hawksbill Gap outcrops</h2>
+    </details>
+    {!entry.nested && group && group.details.length > 0 && <details className="science-section" name="science-info">
+      <summary>Hawksbill Gap outcrops</summary>
       <ul>{entries.filter(item => item.nested && item.place.id === entry.place.id).map(item =>
         <li key={item.key}><button type="button" onClick={() => onSelect(item)}>{item.name}</button></li>
       )}</ul>
-    </section>}
+    </details>}
+    {panorama && panoramaOpen && <RoverPanorama panorama={panorama} onClose={() => setPanoramaOpen(false)} />}
     <dialog className="photo-viewer" ref={viewer} aria-labelledby="photo-title">
       <div className="photo-header">
         <div><small>Jezero image view</small><h2 id="photo-title">{entry.name}</h2></div>
