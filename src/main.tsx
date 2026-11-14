@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Feature from 'ol/Feature.js';
 import MultiPoint from 'ol/geom/MultiPoint.js';
+import LineString from 'ol/geom/LineString.js';
 import { fromExtent } from 'ol/geom/Polygon.js';
 import VectorLayer from 'ol/layer/Vector.js';
 import VectorSource from 'ol/source/Vector.js';
@@ -8,6 +9,7 @@ import Style from 'ol/style/Style.js';
 import CircleStyle from 'ol/style/Circle.js';
 import Fill from 'ol/style/Fill.js';
 import Stroke from 'ol/style/Stroke.js';
+import Text from 'ol/style/Text.js';
 import { createRoot } from 'react-dom/client';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
@@ -25,7 +27,7 @@ import './style.css';
 import { ScienceCard } from './ScienceCard';
 import { SurfaceViews } from './SurfaceViews';
 import { Findings } from './Findings';
-import { Directions } from './Directions';
+import { Directions, type DirectionLine } from './Directions';
 import { elevationRange, makeTerrainLayers, terrain } from './terrain';
 import { MarsIntro, vikingCredit, vikingImage, vikingSource } from './MarsIntro';
 
@@ -60,6 +62,25 @@ function App() {
   const [directionsOpen, setDirectionsOpen] = useState(false);
   const [findings, setFindings] = useState<{ area: string; startNew: boolean }>();
   const [trackSource] = useState(() => new VectorSource<Feature<MultiPoint>>());
+  const [lineSource] = useState(() => new VectorSource<Feature<LineString>>());
+  const updateLines = useCallback((lines: DirectionLine[]) => {
+    lineSource.clear();
+    lineSource.addFeatures(lines.map(({ coordinates, label }) => {
+      const feature = new Feature(new LineString(coordinates));
+      feature.setStyle([
+        new Style({ stroke: new Stroke({ color: '#152738', width: 6, lineDash: [10, 7] }) }),
+        new Style({
+          stroke: new Stroke({ color: '#93dcff', width: 3, lineDash: [10, 7] }),
+          text: new Text({
+            text: label + ' straight-line', font: '600 12px system-ui', offsetY: -13,
+            fill: new Fill({ color: '#fff' }), backgroundFill: new Fill({ color: '#152738' }),
+            padding: [3, 5, 3, 5],
+          }),
+        }),
+      ]);
+      return feature;
+    }));
+  }, [lineSource]);
   const updateTrack = useCallback((points: number[][]) => {
     trackSource.clear();
     if (points.length) trackSource.addFeature(new Feature(new MultiPoint(points)));
@@ -104,7 +125,7 @@ function App() {
         optical(import.meta.env.BASE_URL + 'assets/ctx/jezero-regional-ctx.jpg', regionalExtent, 1000, 'ctx-optical'),
         optical(import.meta.env.BASE_URL + ctx.path, ctx.boundsProjectedM, 160, 'ctx-optical'),
         measuredColor,
-        ...overlays, new VectorLayer({
+        ...overlays, new VectorLayer({ source: lineSource }), new VectorLayer({
         source: trackSource,
         style: new Style({ image: new CircleStyle({ radius: 2, fill: new Fill({ color: '#ff963f' }) }) }),
       }), new VectorLayer({
@@ -190,7 +211,7 @@ function App() {
       surface.removeEventListener('hydro-selection', listener);
       map.dispose();
     };
-  }, [intro, trackSource]);
+  }, [intro, trackSource, lineSource]);
   useEffect(() => {
     colorLayer.current?.setVisible(colorOptical);
   }, [intro, colorOptical]);
@@ -244,7 +265,7 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} />}
+        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} onLines={updateLines} />}
         {findings && <div hidden={open}><Findings {...findings} /></div>}
         {selected && !open && !directionsOpen && !findings && <ScienceCard key={selected.key} entry={selected} onSelect={select}
           onNewFinding={() => {

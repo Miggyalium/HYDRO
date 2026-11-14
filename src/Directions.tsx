@@ -5,6 +5,8 @@ import registry from './data/directions-pairs.json';
 import cautions from './data/cautions.json';
 
 export const trackUrl = import.meta.env.BASE_URL + 'assets/directions/western-network-positions.csv';
+export type DirectionLine = { coordinates: number[][]; label: string };
+const distanceLabel = (km: number) => `${km.toFixed(2)} km`;
 const placesSource = 'https://pds-geosciences.wustl.edu/missions/mars2020/places.htm';
 const nameOf = (id: string) => places.find(place => place.id === id)?.name ?? id;
 const anchorOf = (id: string) => places.find(place => place.id === id)!.anchor;
@@ -18,9 +20,10 @@ export function AreaCaution({ id }: { id: string }) {
   return <p>{record[0]} <a target="_blank" rel="noopener noreferrer" href={record[1]}>Source</a></p>;
 }
 
-export function Directions({ initialStop, onTrack }: {
+export function Directions({ initialStop, onTrack, onLines }: {
   initialStop: string;
   onTrack: (points: number[][]) => void;
+  onLines: (lines: DirectionLine[]) => void;
 }) {
   const [stops, setStops] = useState(['', initialStop]);
   const [showTrack, setShowTrack] = useState(true);
@@ -40,6 +43,18 @@ export function Directions({ initialStop, onTrack }: {
       mapKm: pair ? marsDistanceKm(anchorOf(from), anchorOf(to)) : undefined };
   }), [stops, rows]);
   const hasTrack = legs.some(leg => leg.track);
+
+  useEffect(() => {
+    const lines = stops.slice(1).flatMap((to, index) => {
+      const from = stops[index];
+      if (!getPair(from, to)) return [];
+      const start = anchorOf(from);
+      const end = anchorOf(to);
+      return [{ coordinates: [project(start), project(end)], label: distanceLabel(marsDistanceKm(start, end)) }];
+    });
+    onLines(lines);
+    return () => onLines([]);
+  }, [stops, onLines]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -86,13 +101,14 @@ export function Directions({ initialStop, onTrack }: {
       if (!from || !to) return null;
       return <section className="direction-leg" key={index}>
         <h2>{nameOf(from)} → {nameOf(to)}</h2>
-        {mapKm !== undefined && <p><strong>{mapKm.toFixed(2)} km</strong> straight-line distance between area markers · Derived</p>}
+        {mapKm !== undefined && <p><strong>{distanceLabel(mapKm)}</strong> straight-line distance between area markers · Derived</p>}
         {track ? <p>Recorded rover direction · {nameOf(track.recordedFrom)} → {nameOf(track.recordedTo)}. <a target="_blank" rel="noopener noreferrer" href={placesSource}>NASA PDS source</a></p>
           : <p>{from === to ? 'Choose two different areas.' : 'Terrain and destination context. No historical connector available.'}</p>}
         {track && samples.length > 0 && <p><strong>≈ {roverKm.toFixed(2)} km</strong> historical rover distance · Derived from consecutive recorded positions, including detours and sampling gaps.</p>}
       </section>;
     })}
     {legs.some(leg => leg.pair) && <div className="direction-leg">
+      <p>Dashed blue lines show straight-line distance between markers.</p>
       <p><strong>Walking route unavailable.</strong> Walking distance, access, retreat and time are Unknown.</p>
       <a target="_blank" rel="noopener noreferrer" href={marsRadiusSource}>NASA JPL Mars distance reference</a>
     </div>}
