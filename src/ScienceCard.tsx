@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { HistoricalConditions } from './HistoricalConditions';
 import { AreaCaution } from './Directions';
 import cards from './data/cards.json';
 import { entries, type Entry } from './lib/places';
@@ -33,6 +34,7 @@ export function ScienceCard({ entry, onSelect }: {
       <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
     </div>
     <small>Image credit · {photo.credit}</small>
+    <HistoricalConditions id={entry.place.id} nested={entry.nested} />
     <section>
       <h2>{entry.nested ? 'Hawksbill Gap caution' : 'Terrain caution'}</h2>
       <AreaCaution id={entry.place.id} />

@@ -138,14 +138,15 @@ function App() {
             <input type="checkbox" checked={visibleTerrain[index]} onChange={event => {
               const enabled = event.target.checked;
               setVisibleTerrain(previous => previous.map((value, i) =>
-                i === index ? enabled : enabled && index < 3 && i < 3 ? false : value));
+                i === index ? enabled : enabled && layer.type !== 'vector' && terrain[i].type !== 'vector' ? false : value));
             }} />
             {layer.name}
           </label>)}
           {visibleTerrain[0] && <p className="elevation-key">Derived elevation · {elevationRange[0]} to {elevationRange[1]} m relative to the Mars areoid
             <span aria-hidden="true" />
           </p>}
-          {visibleTerrain[3] && <p>Derived contours · 50 m interval, 100 m index lines</p>}
+          {terrain.some((layer, i) => layer.id === 'contours' && visibleTerrain[i]) &&
+            <p>Derived contours · 50 m interval, 100 m index lines</p>}
           {visibleTerrain[2] && <p>CTX gaps show the underlying optical imagery.</p>}
           <p className="position-note">Slope and walking access · Unknown</p>
         </section>}
@@ -155,9 +156,11 @@ function App() {
       </div>
       <div className="terrain-credits">
         {terrain.filter((_, index) => visibleTerrain[index]).map(layer => <div key={layer.id}>
+          {layer.units && <div>Historical · {layer.units}</div>}
           <a target="_blank" rel="noopener noreferrer" href={layer.sourcePage}>{layer.name} · {layer.credit}</a>
           {layer.licenseUrl && <> · <a target="_blank" rel="noopener noreferrer" href={layer.licenseUrl}>{layer.license}</a>
             {' · '}<a target="_blank" rel="noopener noreferrer" href={import.meta.env.BASE_URL + 'assets/HRSC-LICENSE.md'}>Adaptation notes</a></>}
+          {layer.license === 'CC0-1.0' && <> · CC0 1.0</>}
         </div>)}
       </div>
       <a target="_blank" rel="noopener noreferrer" className="credit" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>

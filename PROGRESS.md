@@ -34,3 +34,11 @@ Type check, existing tests and production build passed. All ten historical slice
 Review Margin Unit to Bright Angel and reverse the selection. The recorded direction should stay the same. Then choose Kodiak to Pliva Vallis and check that only terrain context appears and all rover dots clear. Add a stop, toggle the dots, and check the cautions and source links in Directions and a science card.
 Stage 4 distance update: Added derived straight-line distance for all 28 area pairs and historical rover distance for the ten archived slices. Walking distance remains Unknown. Verified all pairs, reverse symmetry and a quarter-circle reference. Existing tests and production build passed. Review one historical pair and one terrain-only pair in Directions.
 Stage 4 link update: Source, credit, license and adaptation links open in a separate browser tab. Review with a science card and a Directions source link.
+
+## Stage 5 · Historical conditions
+
+Added the approved THEMIS day and night imagery as alternate map views, with the historical relative infrared brightness label and source credit. Science cards show dated MEDA pressure and separate calibrated ATS readings for Brac, Rochette and Hawksbill Gap campaign context. Nested outcrops and other areas have no site-specific readings.
+
+Existing tests, type check and production build passed. Both built THEMIS files match the kit by SHA-256. Browser and console review remain pending. Vite still reports the bundle size warning.
+
+Review both THEMIS views and their credit. Switch from Brac to Kodiak to confirm that the measurements clear, then open Hawksbill Gap and one of its nested outcrops to check the distinction between campaign context and Unknown.

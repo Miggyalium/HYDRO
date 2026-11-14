@@ -62,3 +62,9 @@ form input { padding-left: .65rem; }
 .track-toggle input { accent-color: #da7537; }
 .direction-leg { border-top: 1px solid #75513a; margin-top: .65rem; }
 .direction-leg a, .science-card section a { color: #ffd1ab; }
+
+.historical-conditions { margin-block: .8rem; padding-top: .35rem; border-top: 1px solid #75513a; }
+.historical-conditions details { margin-block: .5rem; overflow-wrap: anywhere; }
+.historical-conditions summary { cursor: pointer; color: #ffd1ab; }
+.historical-conditions dl { margin-block: .5rem; }
+.historical-conditions dd { margin: 0 0 .4rem; font-weight: 600; }

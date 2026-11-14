@@ -1,0 +1,166 @@
+{
+  "status": "historical-only",
+  "source": "https://pdsatmospheres.nmsu.edu/data_and_services/atmospheres_data/PERSEVERANCE/meda.html",
+  "units": {
+    "pressure": "Pa",
+    "ats": "K"
+  },
+  "readings": [
+    {
+      "area": "brac",
+      "sol": 262,
+      "lmst": "15:30:25.163",
+      "pressure": 639.65,
+      "ats": [
+        245.77,
+        258.73,
+        247.34
+      ],
+      "audit": "research/crater-floor-meda-audit.json",
+      "sclk": "690210456",
+      "pressureUncertainty": "Unknown",
+      "pressureTransducer": "1",
+      "pressureProduct": "WE__0262___________DER_PS__________________P01.CSV",
+      "atsProduct": "WE__0262___________CAL_ATS_________________P01.CSV",
+      "locationStatus": "Dated rover workspace context"
+    },
+    {
+      "area": "rochette",
+      "sol": 190,
+      "lmst": "12:29:34.554",
+      "pressure": 701.45,
+      "ats": [
+        248.5,
+        243.43,
+        243.08
+      ],
+      "audit": "research/crater-floor-meda-audit.json",
+      "sclk": "683807540",
+      "pressureUncertainty": "Unknown",
+      "pressureTransducer": "1",
+      "pressureProduct": "WE__0190___________DER_PS__________________P01.CSV",
+      "atsProduct": "WE__0190___________CAL_ATS_________________P01.CSV",
+      "locationStatus": "Dated rover workspace context"
+    }
+  ],
+  "pressureProvenance": "derived",
+  "atsProvenance": "measured and calibrated",
+  "groundTemperature": "Unknown; quality-unverified",
+  "hawksbill": {
+    "status": "checked historical context",
+    "evidence": "research/meda-evidence-2026-11-06/sensor-quality-audit.json",
+    "examples": [
+      {
+        "selection": "First common spacecraft-clock row in checked tables",
+        "sclk": "706093374",
+        "ats": [
+          243.82,
+          244.6,
+          256.76
+        ],
+        "pressureProduct": "WE__0441___________DER_PS__________________P01.CSV",
+        "locationStatus": "Dated rover campaign context; not a per-stop observation",
+        "pressure": 751.42,
+        "lmst": "00441M13:25:06.395",
+        "sol": 441,
+        "atsProduct": "WE__0441___________CAL_ATS_________________P01.CSV",
+        "pressureUncertainty": "Unknown",
+        "pressureTransducer": "1"
+      },
+      {
+        "selection": "First common spacecraft-clock row in checked tables",
+        "sclk": "707197810",
+        "ats": [
+          201.08,
+          201.54,
+          202.11
+        ],
+        "pressureProduct": "WE__0454___________DER_PS__________________P01.CSV",
+        "locationStatus": "Dated rover campaign context; not a per-stop observation",
+        "pressure": 799.63,
+        "lmst": "00454M00:00:00.907",
+        "sol": 454,
+        "atsProduct": "WE__0454___________CAL_ATS_________________P01.CSV",
+        "pressureUncertainty": "Unknown",
+        "pressureTransducer": "1"
+      },
+      {
+        "selection": "First common spacecraft-clock row in checked tables",
+        "sclk": "707641688",
+        "ats": [
+          204.06,
+          204.19,
+          204.03
+        ],
+        "pressureProduct": "WE__0459___________DER_PS__________________P01.CSV",
+        "locationStatus": "Dated rover campaign context; not a per-stop observation",
+        "pressure": 799.62,
+        "lmst": "00459M00:00:06.045",
+        "sol": 459,
+        "atsProduct": "WE__0459___________CAL_ATS_________________P01.CSV",
+        "pressureUncertainty": "Unknown",
+        "pressureTransducer": "1"
+      },
+      {
+        "selection": "First common spacecraft-clock row in checked tables",
+        "sclk": "712879386",
+        "ats": [
+          202.02,
+          201.92,
+          202.72
+        ],
+        "pressureProduct": "WE__0518___________DER_PS__________________P02.CSV",
+        "locationStatus": "Dated rover campaign context; not a per-stop observation",
+        "pressure": 787.71,
+        "lmst": "00518M00:00:05.939",
+        "sol": 518,
+        "atsProduct": "WE__0518___________CAL_ATS_________________P01.CSV",
+        "pressureUncertainty": "Unknown",
+        "pressureTransducer": "1"
+      }
+    ]
+  },
+  "otherAreas": "Unknown",
+  "areaCoverage": {
+    "hawksbill-gap": {
+      "meda": "Campaign context on sols 441, 454, 459 and 518",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "kodiak": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "bright-angel": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "margin-unit": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "brac": {
+      "meda": "Workspace context on sol 262",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "rochette": {
+      "meda": "Workspace context on sol 190",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "sava-vallis": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "pliva-vallis": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    }
+  }
+}

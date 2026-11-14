@@ -55,6 +55,40 @@
     "sourcePage": "https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic"
   },
   {
+    "id": "themis-day",
+    "name": "THEMIS Day IR",
+    "path": "assets/themis/dir-review.png",
+    "type": "image",
+    "defaultVisible": false,
+    "credit": "NASA Mars Odyssey/THEMIS, USGS",
+    "boundsProjectedM": [
+      4558145.554195119,
+      1055000,
+      4635345.554195119,
+      1132200
+    ],
+    "units": "relative infrared brightness",
+    "license": "CC0-1.0",
+    "sourcePage": "https://stac.astrogeology.usgs.gov/docs/data/mars/themis_controlled_mosaics/"
+  },
+  {
+    "id": "themis-night",
+    "name": "THEMIS Night IR",
+    "path": "assets/themis/nir-review.png",
+    "type": "image",
+    "defaultVisible": false,
+    "credit": "NASA Mars Odyssey/THEMIS, USGS",
+    "boundsProjectedM": [
+      4558145.554195119,
+      1055000,
+      4635345.554195119,
+      1132200
+    ],
+    "units": "relative infrared brightness",
+    "license": "CC0-1.0",
+    "sourcePage": "https://stac.astrogeology.usgs.gov/docs/data/mars/themis_controlled_mosaics/"
+  },
+  {
     "id": "contours",
     "name": "HRSC 50 m contours",
     "path": "assets/contours/hrsc-contours-50m.geojson",
