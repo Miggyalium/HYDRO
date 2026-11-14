@@ -231,7 +231,7 @@ function App() {
         <div className="rail-features" role="group" aria-label="Features">
         <RailButton label="Directions" preview="photos/pliva-ctx-review.png" expanded={directionsOpen && !open}
           onClick={() => { setFindings(undefined); setOpen(false); setLayersOpen(false); setDirectionsOpen(open || !directionsOpen); }} />
-        <RailButton label="Findings" preview="photos/brac-salette.png" expanded={Boolean(findings) && !open}
+        <RailButton label="Findings" preview="assets/findings-icon.svg" expanded={Boolean(findings) && !open}
           onClick={() => {
             setOpen(false);
             setLayersOpen(false);
