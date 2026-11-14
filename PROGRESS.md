@@ -50,3 +50,34 @@ Added a browser-saved worksheet and record list. Science cards can open a new fi
 Type check, existing tests and production build passed. Browser interaction and console review remain pending. Vite reports the existing bundle size warning.
 
 Open Brac and choose Add astronaut finding. Verify the area and default rating, save an observation, refresh and reopen it from Findings, then create a second record. Check that a selected rating requires a reason.
+
+## Pre-Stage 7 · Search and map entry refinements
+
+Search results can be dismissed with their own close button or Escape without clearing the query. Hydro opens on a shaded globe drawn from the USGS Viking MDIM 2.1 colorized mosaic (NASA/JPL/USGS), then animates into the Jezero map. Reduced motion skips the animation.
+
+The optical map uses the Viking mosaic for broad context, the same Murray Lab MRO CTX E076_N16 source tile for the regional view, and the existing crater crop for detail. The regional preview was sampled at approximately 100 m per pixel from verified native tile bounds; none of its sampled pixels were zero. These visual layers add no walking-access or hazard evidence.
+
+Production build (including type checking) and Vitest passed. The in-app browser could not reach the local preview. Review the globe on a fresh load, enter with scroll or the button, zoom out to confirm the terrain continues, and close and reopen search with the close button and Escape.
+
+## Pre-Stage 7 · Sharper zoomed-out imagery
+
+Added a native-pixel crop from the USGS Viking MDIM 2.1 source JPEG as an intermediate basemap. It uses the original image's pixel bounds in the Mars equirectangular projection and retains roughly 1 km per source pixel, compared with roughly 5 km per pixel in the reduced global image. The regional CTX preview remains visible one step farther out. Review by zooming out twice from the initial Jezero view and comparing the terrain beyond the CTX square.
+
+## Pre-Stage 7 · Jezero map readability
+
+Separated place labels with leader lines tied to existing map anchors. Added a dashed outline for Hydro's existing Jezero study footprint and a wider credited image view inspired by the ESA Jezero viewpoint interface. Review the clustered western sites at overview scale, check the footprint against the legend, then open a place image and use Back to map.
+
+## Local refinement · Place-specific rover panoramas
+
+The Bright Angel card opens Mastcam-Z panorama #39. Hawksbill Gap and its Skinner Ridge subcard open panorama #19, labeled as Skinner Ridge. Other cards retain their own photos and show that verified 360° imagery is unavailable. The viewer supports dragging, mouse-wheel zoom, keyboard arrows, and symbolic zoom buttons.
+
+Source: https://mastcamz.asu.edu/mastcam-zs-360-panorama-collection/
+Credit: NASA/JPL-Caltech/ASU/MSSS. Local JPEGs are resized from the team's natural-color cylindrical previews.
+
+## Local refinement · Margin Unit rover panorama
+
+Added Mastcam-Z panorama #31 to the Margin Unit card only. NASA Photojournal identifies Turquoise Bay as part of the Margin Unit, and NASA NTRS report 20240000403 documents the Lefroy Bay sampling workspace in Turquoise Bay during the same campaign. The viewer names the actual viewpoint, and the image does not mark an exact sample coordinate. The local JPEG is resized from the Mastcam-Z team's cylindrical preview. Kodiak, Brac, Rochette, Sava Vallis and Pliva Vallis remain unavailable for 360° viewing pending an exact verified match.
+
+## Local refinement · Higher resolution rover panoramas
+
+Added 14,000-pixel-wide JPEGs derived from the Mastcam-Z archive's natural-color cylindrical sources: #19 for Skinner Ridge, #39 for Bright Angel, and #31 for Turquoise Bay (the team's half-resolution master for #31). Each detail image loads on first zoom and the existing preview remains available while it loads. Sources and credit are shown in the viewer. Review all three in Chrome with the mouse wheel and compare detail after the larger image arrives.

@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { panoramas, RoverPanorama } from './RoverPanorama';
 import { HistoricalConditions } from './HistoricalConditions';
 import { AreaCaution } from './Directions';
 import cards from './data/cards.json';
@@ -10,6 +11,8 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
   onNewFinding: () => void;
 }) {
   const viewer = useRef<HTMLDialogElement>(null);
+  const [panoramaOpen, setPanoramaOpen] = useState(false);
+  const panorama = panoramas[entry.key];
   const group = cards.find(card => card.id === entry.place.id);
   const card = entry.nested ? group?.details.find(detail => detail.name === entry.name) : group;
 
@@ -28,7 +31,11 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
       <img className="card-photo" src={imageUrl} alt={photo.caption} />
       <figcaption>{photo.caption}</figcaption>
     </figure>
-    <button type="button" className="photo-action" onClick={() => viewer.current?.showModal()}>View photo</button>
+    <button type="button" className="photo-action" onClick={() => viewer.current?.showModal()}>Open image view</button>
+    {panorama
+      ? <button type="button" className="layers-toggle directions-toggle" onClick={() => setPanoramaOpen(true)}>360° look-around</button>
+      : <p className="position-note">360° look-around · No verified panorama available</p>}
+    {panorama && panoramaOpen && <RoverPanorama panorama={panorama} onClose={() => setPanoramaOpen(false)} />}
     <div className="science-links">
       {card.source && <a target="_blank" rel="noopener noreferrer" href={card.source}>Science source</a>}
       {figure && <a target="_blank" rel="noopener noreferrer" href={figure.url}>Published {figure.label}</a>}
@@ -50,13 +57,13 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
     </section>}
     <dialog className="photo-viewer" ref={viewer} aria-labelledby="photo-title">
       <div className="photo-header">
-        <h2 id="photo-title">{entry.name}</h2>
-        <form method="dialog"><button aria-label="Close photo" autoFocus>×</button></form>
+        <div><small>Jezero image view</small><h2 id="photo-title">{entry.name}</h2></div>
+        <form method="dialog"><button aria-label="Back to map" autoFocus>← Back to map</button></form>
       </div>
       <figure>
         <img src={imageUrl} alt={photo.caption} loading="lazy" />
-        <figcaption>{photo.caption}</figcaption>
       </figure>
+      <p className="position-note">{photo.caption}</p>
       <p>Image credit · {photo.credit}</p>
       <div className="science-links">
         <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
