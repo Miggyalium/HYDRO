@@ -51,6 +51,8 @@ main { --rail-width: clamp(3.5rem, 7.5vw, 8.5rem); margin-left: var(--rail-width
 
 @media (prefers-reduced-motion: reduce) { .mars-intro, .mars-globe { transition: none; } }
 .panel { width: min(20rem, calc(100% - 2rem)); }
+.search-form:focus-within { outline: 2px solid #ffb568; outline-offset: 2px; }
+.search-form input:focus { outline: none; }
 form { align-items: center; border-radius: 999px; }
 .search-icon { width: .82rem; height: .82rem; border: 1.5px solid currentColor; border-radius: 50%; margin-left: 1rem; position: relative; flex: none; }
 .search-icon::after { content: ""; width: .36rem; height: 1.5px; background: currentColor; position: absolute; top: .65rem; left: .61rem; transform: rotate(45deg); }
@@ -105,6 +107,8 @@ form input { padding-left: .65rem; }
 .layer-control label img { width: 2.3rem; height: 2.3rem; flex: none; object-fit: cover; border-radius: .4rem; border: 1px solid #8a5c3d; }
 .layer-control .warm-layer-preview { filter: sepia(.64) saturate(1.65) hue-rotate(342deg); }
 .layer-control input { flex: none; accent-color: #da7537; }
+.layer-description { margin-top: .65rem; padding: .65rem .75rem; border: 1px solid #75513a; border-radius: .65rem; background: #302217; }
+.layer-description p { margin: .3rem 0 0; color: #e3cab7; font-size: .85rem; line-height: 1.4; }
 .layers-toggle { background: #221a14; border: 1px solid #8a5c3d; border-radius: .7rem; padding: .55rem .85rem; font-weight: 600; }
 .elevation-key span { display: block; height: .5rem; border-radius: .4rem; background: linear-gradient(to right, #302044, #895041, #f8d293); margin-block: .35rem; }
 .terrain-credits { position: absolute; right: 3.2rem; bottom: 1.95rem; max-width: calc(100% - 8.5rem); background: #211910; font-size: .72rem; text-align: right; }

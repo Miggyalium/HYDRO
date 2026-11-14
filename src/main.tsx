@@ -41,6 +41,15 @@ const vikingContextExtent = [
 const regionalExtent = [4504877.011771274, 948395.1603728997, 4741975.801864498, 1185493.9504661246];
 const hrscColorPath = 'assets/ctx/jezero-ctx-hrsc-color.jpg';
 const hrscColorSource = 'https://hrscteam.dlr.de/public/data/HMC30/quads.php?quad=mc13e';
+const layerDescriptions: Record<string, string> = {
+  optical: 'Combines color observed by Mars Express HRSC with sharper surface detail from NASA’s CTX camera.',
+  'hrsc-elevation': 'Colors show elevation relative to the Mars areoid, the reference surface used for these heights.',
+  'hrsc-hillshade': 'Simulated lighting on HRSC elevation highlights broad landforms such as the crater rim and valleys.',
+  'ctx-hillshade': 'Simulated lighting on a terrain model derived from CTX imagery brings out local surface relief. Gaps show the underlying optical imagery.',
+  'themis-day': 'Historical daytime infrared brightness recorded from orbit. The shades show relative brightness rather than temperature readings.',
+  'themis-night': 'Historical nighttime infrared brightness recorded from orbit. The shades help compare how surfaces emit heat at night.',
+  contours: 'Derived lines connect points at the same elevation. Closely spaced lines indicate steeper terrain at this map’s scale.',
+};
 
 function RailButton({ label, preview, expanded, pressed, onClick }: {
   label: string; preview?: string; expanded?: boolean; pressed?: boolean; onClick: () => void;
@@ -89,6 +98,7 @@ function App() {
   const [visibleTerrain, setVisibleTerrain] = useState(() => terrain.map(layer => layer.defaultVisible));
   const [layersOpen, setLayersOpen] = useState(false);
   const [colorOptical, setColorOptical] = useState(true);
+  const [inspectedLayer, setInspectedLayer] = useState<string>();
   const colorLayer = useRef<ImageLayer<ImageStatic> | null>(null);
   const [surfaceViewsOpen, setSurfaceViewsOpen] = useState(false);
   const results = search(query);
@@ -238,7 +248,7 @@ function App() {
             setDirectionsOpen(false);
             setFindings(findings && !open ? undefined : { area: selected?.place.id ?? '', startNew: false });
           }} />
-        <RailButton label="Surface views" preview="photos/margin-unit-pia26815.jpg" onClick={() => setSurfaceViewsOpen(true)} />
+        <RailButton label="Surface views" preview="assets/surface-views-icon.svg" onClick={() => setSurfaceViewsOpen(true)} />
         </div>
         <div className="rail-places" role="group" aria-label="Jezero locations">
           <span className="rail-section-label" aria-hidden="true">Locations</span>
@@ -251,7 +261,7 @@ function App() {
       <section className="panel" aria-label="Jezero search" onKeyDown={event => {
         if (event.key === 'Escape' && open) { input.current?.focus(); setOpen(false); }
       }}>
-        <form onSubmit={event => { event.preventDefault(); if (results[0]) select(results[0]); }}>
+        <form className="search-form" onSubmit={event => { event.preventDefault(); if (results[0]) select(results[0]); }}>
           <span className="search-icon" aria-hidden="true" />
           <input ref={input} aria-label="Search Jezero" placeholder="Search Jezero" value={query}
             aria-controls={open ? 'results' : undefined}
@@ -281,12 +291,16 @@ function App() {
       <div className="map-title"><span aria-hidden="true" /> Hydro study area <small>Jezero Crater and nearby sites</small></div>
       <div className="layer-control">
         {layersOpen && <section id="terrain-options" className="surface" aria-label="Map layers">
-          <label><input type="checkbox" checked={colorOptical} onChange={event => setColorOptical(event.target.checked)} />
+          <label><input type="checkbox" checked={colorOptical} onChange={event => {
+            setInspectedLayer('optical');
+            setColorOptical(event.target.checked);
+          }} />
             <img src={import.meta.env.BASE_URL + hrscColorPath} alt="" />
             <span>HRSC color + CTX detail <small>Jezero overview</small></span>
           </label>
           {terrain.map((layer, index) => <label key={layer.id}>
             <input type="checkbox" checked={visibleTerrain[index]} onChange={event => {
+              setInspectedLayer(layer.id);
               const enabled = event.target.checked;
               setVisibleTerrain(previous => previous.map((value, i) =>
                 i === index ? enabled : enabled && layer.type !== 'vector' && terrain[i].type !== 'vector' ? false : value));
@@ -300,8 +314,12 @@ function App() {
           </p>}
           {terrain.some((layer, i) => layer.id === 'contours' && visibleTerrain[i]) &&
             <p>Derived contours · 50 m interval, 100 m index lines</p>}
-          {visibleTerrain[2] && <p>CTX gaps show the underlying optical imagery.</p>}
-          <p className="position-note">Slope and walking access · Unknown</p>
+          <div aria-live="polite">
+            {inspectedLayer && <div className="layer-description">
+              <strong>{inspectedLayer === 'optical' ? 'HRSC color + CTX detail' : terrain.find(layer => layer.id === inspectedLayer)?.name}</strong>
+              <p>{layerDescriptions[inspectedLayer]}</p>
+            </div>}
+          </div>
         </section>}
         <button className="layers-toggle map-layers-button" type="button" aria-expanded={layersOpen}
           aria-controls={layersOpen ? 'terrain-options' : undefined}
