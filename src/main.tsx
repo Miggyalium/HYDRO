@@ -265,7 +265,12 @@ function App() {
             <button onClick={() => select(entry)}>{entry.name}{entry.nested && <small>Hawksbill Gap</small>}</button>
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
-        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} onLines={updateLines} />}
+        {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} onLines={updateLines}
+          onOpenFindings={area => {
+            setDirectionsOpen(false);
+            setLayersOpen(false);
+            setFindings({ area, startNew: true });
+          }} />}
         {findings && <div hidden={open}><Findings {...findings} /></div>}
         {selected && !open && !directionsOpen && !findings && <ScienceCard key={selected.key} entry={selected} onSelect={select}
           onNewFinding={() => {
