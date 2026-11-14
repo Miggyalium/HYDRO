@@ -16,3 +16,11 @@ Added science summaries, map position notes, source links, and credited imagery 
 Type check, existing Vitest tests, production build, and card asset and credit checks passed. Interactive browser and console review is pending.
 
 Open Bright Angel from a marker, view and close its photo with Escape, then search for Kibler Knob and check the regional caption, published figure link and Unknown pin. Open Sava and Pliva and confirm their captions identify CTX imagery.
+
+## Stage 3 · Terrain layers
+
+The Layers control adds HRSC areoid elevation, HRSC hillshade, CTX hillshade, and HRSC contours. The three raster views switch individually. The 50 m contours with 100 m index lines are off by default and can overlay each view. CTX hillshade gaps expose the optical imagery beneath. Slope and walking access remain Unknown. Active layers show source credits and HRSC license and adaptation links.
+
+Type check, existing Vitest tests, and production build passed. All four built assets matched the kit by SHA-256. Browser rendering and console checks remain pending. Vite reports a bundle size warning.
+
+Review the optical default, each terrain view, contour alignment and weight at the rim, the CTX coverage edge, and the credits. Try a science card while a terrain layer is active.

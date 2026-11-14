@@ -12,6 +12,7 @@ import { entries, places, project, search, type Entry } from './lib/places';
 import 'ol/ol.css';
 import './style.css';
 import { ScienceCard } from './ScienceCard';
+import { elevationRange, makeTerrainLayers, terrain } from './terrain';
 
 function App() {
   const target = useRef<HTMLDivElement>(null);
@@ -19,6 +20,9 @@ function App() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Entry>();
+  const terrainLayers = useRef<ReturnType<typeof makeTerrainLayers>>([]);
+  const [visibleTerrain, setVisibleTerrain] = useState(() => terrain.map(layer => layer.defaultVisible));
+  const [layersOpen, setLayersOpen] = useState(false);
   const results = search(query);
   function select(entry: Entry) {
     setSelected(entry);
@@ -34,11 +38,13 @@ function App() {
   useEffect(() => {
     const projection = new Projection({ code: site.projection.name, units: 'm', extent: site.bboxProjectedM });
     const view = new View({ projection, center: site.centerProjectedM, zoom: 0, maxZoom: 6 });
+    const overlays = makeTerrainLayers(projection);
+    terrainLayers.current = overlays;
     const map = new Map({
       target: target.current!, view,
       layers: [new ImageLayer({ source: new ImageStatic({
         url: import.meta.env.BASE_URL + ctx.path, imageExtent: ctx.boundsProjectedM, projection,
-      }) })],
+      }) }), ...overlays],
     });
     const markers = places.map(place => {
       const button = document.createElement('button');
@@ -75,6 +81,9 @@ function App() {
     };
   }, []);
   useEffect(() => {
+    terrainLayers.current.forEach((layer, index) => layer.setVisible(visibleTerrain[index]));
+  }, [visibleTerrain]);
+  useEffect(() => {
     if (selected) target.current?.dispatchEvent(new CustomEvent('hydro-selection', { detail: selected.place.id }));
     else target.current?.dispatchEvent(new CustomEvent('hydro-selection'));
   }, [selected]);
@@ -100,6 +109,34 @@ function App() {
         {selected && !open && <ScienceCard key={selected.key} entry={selected} onSelect={select} />}
       </section>
       <span className="map-title" aria-hidden="true">Jezero Crater</span>
+      <div className="layer-control">
+        {layersOpen && <section id="terrain-options" className="surface" aria-label="Terrain layers">
+          {terrain.map((layer, index) => <label key={layer.id}>
+            <input type="checkbox" checked={visibleTerrain[index]} onChange={event => {
+              const enabled = event.target.checked;
+              setVisibleTerrain(previous => previous.map((value, i) =>
+                i === index ? enabled : enabled && index < 3 && i < 3 ? false : value));
+            }} />
+            {layer.name}
+          </label>)}
+          {visibleTerrain[0] && <p className="elevation-key">Derived elevation · {elevationRange[0]} to {elevationRange[1]} m relative to the Mars areoid
+            <span aria-hidden="true" />
+          </p>}
+          {visibleTerrain[3] && <p>Derived contours · 50 m interval, 100 m index lines</p>}
+          {visibleTerrain[2] && <p>CTX gaps show the underlying optical imagery.</p>}
+          <p className="position-note">Slope and walking access · Unknown</p>
+        </section>}
+        <button className="layers-toggle" type="button" aria-expanded={layersOpen}
+          aria-controls={layersOpen ? 'terrain-options' : undefined}
+          onClick={() => setLayersOpen(!layersOpen)}>Layers</button>
+      </div>
+      <div className="terrain-credits">
+        {terrain.filter((_, index) => visibleTerrain[index]).map(layer => <div key={layer.id}>
+          <a href={layer.sourcePage}>{layer.name} · {layer.credit}</a>
+          {layer.licenseUrl && <> · <a href={layer.licenseUrl}>{layer.license}</a>
+            {' · '}<a href={import.meta.env.BASE_URL + 'assets/HRSC-LICENSE.md'}>Adaptation notes</a></>}
+        </div>)}
+      </div>
       <a className="credit" href={ctx.sourcePage}>MRO CTX · {ctx.credit}</a>
     </main>
   </>;

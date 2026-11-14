@@ -1,0 +1,71 @@
+[
+  {
+    "id": "hrsc-elevation",
+    "name": "HRSC areoid elevation",
+    "path": "assets/relief/hrsc-elevation.tif",
+    "type": "raster",
+    "defaultVisible": false,
+    "credit": "ESA/DLR/FU Berlin",
+    "boundsProjectedM": [
+      4558224.239542249,
+      1055086.7226951488,
+      4635284.239542249,
+      1132146.7226951488
+    ],
+    "publicRedistribution": "Permitted under CC BY-SA 3.0 IGO",
+    "sourcePage": "https://hrscteam.dlr.de/public/data/HMC30/quads.php?quad=mc13e",
+    "license": "CC BY-SA 3.0 IGO",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+    "reusePolicy": "https://hrscteam.dlr.de/imprint_hrsc_en.php",
+    "changes": "Cropped to the Jezero overview and reprojected to the project display grid."
+  },
+  {
+    "id": "hrsc-hillshade",
+    "name": "HRSC hillshade",
+    "path": "assets/relief/hrsc-hillshade.png",
+    "type": "image",
+    "defaultVisible": false,
+    "credit": "ESA/DLR/FU Berlin",
+    "boundsProjectedM": [
+      4558224.239542249,
+      1055086.7226951488,
+      4635284.239542249,
+      1132146.7226951488
+    ],
+    "publicRedistribution": "Permitted under CC BY-SA 3.0 IGO",
+    "sourcePage": "https://hrscteam.dlr.de/public/data/HMC30/quads.php?quad=mc13e",
+    "license": "CC BY-SA 3.0 IGO",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+    "reusePolicy": "https://hrscteam.dlr.de/imprint_hrsc_en.php",
+    "changes": "Derived with artificial illumination from HRSC terrain, reprojected and cropped to the Jezero overview."
+  },
+  {
+    "id": "ctx-hillshade",
+    "name": "CTX hillshade",
+    "path": "assets/relief/ctx-hillshade.png",
+    "type": "image",
+    "defaultVisible": false,
+    "credit": "NASA/JPL-Caltech/USGS",
+    "boundsProjectedM": [
+      4558224.239542249,
+      1055086.7226951488,
+      4635284.239542249,
+      1132146.7226951488
+    ],
+    "sourcePage": "https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic"
+  },
+  {
+    "id": "contours",
+    "name": "HRSC 50 m contours",
+    "path": "assets/contours/hrsc-contours-50m.geojson",
+    "type": "vector",
+    "defaultVisible": false,
+    "credit": "ESA/DLR/FU Berlin",
+    "publicRedistribution": "Permitted under CC BY-SA 3.0 IGO",
+    "sourcePage": "https://hrscteam.dlr.de/public/data/HMC30/quads.php?quad=mc13e",
+    "license": "CC BY-SA 3.0 IGO",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+    "reusePolicy": "https://hrscteam.dlr.de/imprint_hrsc_en.php",
+    "changes": "Derived 50 m contours with 100 m index lines for the Jezero overview."
+  }
+]
