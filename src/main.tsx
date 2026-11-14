@@ -251,20 +251,28 @@ function App() {
         button.style.visibility = leader.style.visibility = placedLabel ? 'visible' : 'hidden';
       }
     };
-    map.on('postrender', layoutLabels);
+    map.once('postrender', layoutLabels);
+    map.on('moveend', layoutLabels);
     const fit = () => {
-      view.fit(site.bboxProjectedM, { padding: [24, 26, 28, 26] });
+      map.updateSize();
+      const size = map.getSize();
+      if (!size || size[0] <= 52 || size[1] <= 52) return false;
+      view.fit(site.bboxProjectedM, { size, padding: [24, 26, 28, 26] });
+      return true;
     };
-    fit();
+    let initialFitDone = fit();
     surface.focus({ preventScroll: true });
     const resize = new ResizeObserver(() => {
-      map.updateSize();
+      if (initialFitDone) map.updateSize();
+      else initialFitDone = fit();
+      map.once('postrender', layoutLabels);
+      map.render();
     });
     resize.observe(surface);
     const listener = (event: Event) => {
       const id = (event as CustomEvent<string>).detail;
       markers.forEach(({ button, id: markerId }) => button.setAttribute('aria-pressed', String(markerId === id)));
-      map.render();
+      layoutLabels();
       const marker = markers.find(item => item.id === id);
       if (marker) view.animate({ center: marker.overlay.getPosition(), duration: 250 });
       else fit();
