@@ -28,6 +28,7 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
     {entry.nested && <small>Hawksbill Gap · Independent pin Unknown</small>}
     <p>{card.summary}</p>
     <p className="position-note">{card.position}</p>
+    {'positionSource' in card && <div className="science-links"><a target="_blank" rel="noopener noreferrer" href={card.positionSource}>IAU/USGS position source</a></div>}
     {card.source && <div className="science-links"><a target="_blank" rel="noopener noreferrer" href={card.source}>Science source</a></div>}
     </details>
     <details className="science-section" name="science-info"><summary>Images & 360° views</summary>
@@ -38,7 +39,7 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
     <button type="button" className="photo-action" onClick={() => viewer.current?.showModal()}>Open image view</button>
     {panorama
       ? <button type="button" className="layers-toggle directions-toggle" onClick={() => setPanoramaOpen(true)}>360° look-around</button>
-      : <p className="position-note">360° look-around · No verified panorama available</p>}
+      : <p className="position-note">No 360° images available</p>}
     <div className="science-links">
       {figure && <a target="_blank" rel="noopener noreferrer" href={figure.url}>Published {figure.label}</a>}
       <a target="_blank" rel="noopener noreferrer" href={photo.source}>Image source</a>
@@ -50,6 +51,7 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
     </details>
     <details className="science-section" name="science-info"><summary>Terrain cautions</summary>
       <AreaCaution id={entry.place.id} />
+      {entry.key === 'dacono' && <p>Published study result · <strong>16.7° derived inclination</strong> for selected talus transects. <a href="https://doi.org/10.2478/mgrsd-2025-0032" target="_blank" rel="noopener noreferrer">Talus study</a></p>}
       <small>Local slope, footing and walking access · Unknown</small>
       <button className="layers-toggle directions-toggle" type="button" onClick={onNewFinding}>Add astronaut finding</button>
     </details>
@@ -59,7 +61,7 @@ export function ScienceCard({ entry, onSelect, onNewFinding }: {
         <li key={item.key}><button type="button" onClick={() => onSelect(item)}>{item.name}</button></li>
       )}</ul>
     </details>}
-    {panorama && panoramaOpen && <RoverPanorama panorama={panorama} onClose={() => setPanoramaOpen(false)} />}
+    {panoramaOpen && panorama && <RoverPanorama panorama={panorama} onClose={() => setPanoramaOpen(false)} />}
     <dialog className="photo-viewer" ref={viewer} aria-labelledby="photo-title">
       <div className="photo-header">
         <div><small>Jezero image view</small><h2 id="photo-title">{entry.name}</h2></div>

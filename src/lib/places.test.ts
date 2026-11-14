@@ -2,8 +2,8 @@ import { expect, test } from 'vitest';
 import { entries, places, project, search } from './places';
 import site from '../data/site.json';
 
-test('all eight anchors project inside the registered crater image', () => {
-  expect(places).toHaveLength(8);
+test('all ten anchors project inside the registered crater image', () => {
+  expect(places).toHaveLength(10);
   const [west, south, east, north] = site.bboxProjectedM;
   for (const place of places) {
     const [x, y] = project(place.anchor);
@@ -17,6 +17,8 @@ test('all eight anchors project inside the registered crater image', () => {
 test('matches aliases and accents and keeps nested results tied to Hawksbill Gap', () => {
   expect(search('MÁAZ')[0].place.id).toBe('rochette');
   expect(search('Montagnac')[0].place.id).toBe('rochette');
+  expect(search('Dacono')[0].place.id).toBe('dacono');
+  expect(search('Ancient lake basin')[0].place.id).toBe('jezero-floor');
   expect(search('Kibler Knob')[0]).toMatchObject({ nested: true, place: { id: 'hawksbill-gap' } });
   expect(entries.filter(entry => entry.nested)).toHaveLength(5);
   expect(search('no such site')).toEqual([]);

@@ -190,5 +190,33 @@
     "source": "https://planetarynames.wr.usgs.gov/Feature/15903",
     "position": "Representative eastern outlet trace point",
     "details": []
+  },
+  {
+    "id": "dacono",
+    "summary": "An impact crater on Jezero’s southeastern floor. Orbital observations document boulder tracks on parts of its wall. Site-specific water and mineral evidence is Unknown.",
+    "source": "https://doi.org/10.1029/2020GL090362",
+    "position": "IAU/USGS crater center, 18.34° N, 77.95° E. This marker identifies the crater, with walking access Unknown.",
+    "positionSource": "https://planetarynames.wr.usgs.gov/Feature/15877",
+    "photo": {
+      "path": "photos/dacono-ctx.png",
+      "source": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "credit": "NASA/JPL/MSSS/The Murray Lab",
+      "caption": "Orbital CTX crop centered on Dacono Crater. Rover imagery is unverified."
+    },
+    "details": []
+  },
+  {
+    "id": "jezero-floor",
+    "summary": "The central floor provides context for Jezero’s former lake basin. Orbital stratigraphy uses which deposits overlie or cut across others to work out the relative timing of floor materials and river-fed deposits. Researchers have proposed different origins for some of the floor materials. Minerals at the reference point are Unknown.",
+    "source": "https://doi.org/10.1029/2021JE006840",
+    "position": "Overview reference at the IAU/USGS Jezero crater center, 18.41° N, 77.69° E. The marker represents the overview, with walking access Unknown.",
+    "positionSource": "https://planetarynames.wr.usgs.gov/Feature/14300",
+    "photo": {
+      "path": "photos/jezero-floor-ctx.png",
+      "source": "https://murray-lab.caltech.edu/CTX/V01/TilePages/",
+      "credit": "NASA/JPL/MSSS/The Murray Lab",
+      "caption": "Orbital CTX crop around the central-floor reference point. Rover imagery is unverified."
+    },
+    "details": []
   }
 ]

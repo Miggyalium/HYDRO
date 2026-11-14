@@ -15,6 +15,8 @@ const precautionByArea: Partial<Record<string, { score: number; scope: string }>
 const placesSource = 'https://pds-geosciences.wustl.edu/missions/mars2020/places.htm';
 const nameOf = (id: string) => places.find(place => place.id === id)?.name ?? id;
 const anchorOf = (id: string) => places.find(place => place.id === id)!.anchor;
+const hasDistinctAnchors = (from: string, to: string) => from !== to
+  && places.some(place => place.id === from) && places.some(place => place.id === to);
 const getPair = (a: string, b: string) => a !== b
   ? registry.pairs.find(pair => pair.areas.includes(a) && pair.areas.includes(b))
   : undefined;
@@ -45,15 +47,15 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
     const samples = track && slice.length === track.recordCount ? slice : [];
     const roverKm = samples.reduce((sum, row, i) =>
       i === 0 ? sum : sum + marsDistanceKm(samples[i - 1].slice(4, 6), row.slice(4, 6)), 0);
-    return { from, to, pair, track, samples, roverKm,
-      mapKm: pair ? marsDistanceKm(anchorOf(from), anchorOf(to)) : undefined };
+    return { from, to, track, samples, roverKm,
+      mapKm: hasDistinctAnchors(from, to) ? marsDistanceKm(anchorOf(from), anchorOf(to)) : undefined };
   }), [stops, rows]);
   const hasTrack = legs.some(leg => leg.track);
 
   useEffect(() => {
     const lines = stops.slice(1).flatMap((to, index) => {
       const from = stops[index];
-      if (!getPair(from, to)) return [];
+      if (!hasDistinctAnchors(from, to)) return [];
       const start = anchorOf(from);
       const end = anchorOf(to);
       return [{ coordinates: [project(start), project(end)], label: distanceLabel(marsDistanceKm(start, end)) }];
@@ -147,7 +149,7 @@ export function Directions({ initialStop, onTrack, onLines, onOpenFindings }: {
         </details>}
       </section>;
     })}
-    {legs.some(leg => leg.pair) && <div className="direction-leg">
+    {legs.some(leg => leg.mapKm !== undefined) && <div className="direction-leg">
       <details className="science-section">
         <summary>Map key &amp; rating scale</summary>
         <p>Dashed blue lines show straight-line distance between markers.</p>

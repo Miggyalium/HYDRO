@@ -6,5 +6,7 @@
   "brac": ["A Salette core fragment detached after rover sampling. Local footing is Unknown.", "https://doi.org/10.1029/2022JE007474"],
   "rochette": ["The target block moved slightly during rover coring. Surrounding ground stability is Unknown.", "https://doi.org/10.1029/2022JE007474"],
   "sava-vallis": ["Orbital imagery shows the inlet and valley relief. Located hazards and local access are Unknown.", "https://www.dlr.de/en/latest/news/2020/03/20200929_topography-of-jezero-crater"],
-  "pliva-vallis": ["The incised outlet and terraces provide terrain context. Located hazards and local access are Unknown.", "https://doi.org/10.1029/2024JE008862"]
+  "pliva-vallis": ["The incised outlet and terraces provide terrain context. Located hazards and local access are Unknown.", "https://doi.org/10.1029/2024JE008862"],
+  "dacono": ["Orbital imagery shows past boulder tracks on parts of the crater wall. Current activity, exact obstacle positions and walking access are Unknown.", "https://doi.org/10.1029/2020GL090362"],
+  "jezero-floor": ["Orbital mapping provides regional terrain context. Local obstacles, footing and walking access are Unknown at the overview reference point.", "https://doi.org/10.1029/2021JE006840"]
 }

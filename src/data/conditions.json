@@ -1,5 +1,14 @@
 {
   "status": "historical-only",
+  "orbitalThermal": {
+    "source": "https://doi.org/10.5281/zenodo.4931348",
+    "credit": "Edwards & Buz · Mars Odyssey THEMIS",
+    "pixelSizeM": 100,
+    "markerSamples": [
+      { "area": "dacono", "approximateThermalInertia": 290 },
+      { "area": "jezero-floor", "approximateThermalInertia": 300 }
+    ]
+  },
   "source": "https://pdsatmospheres.nmsu.edu/data_and_services/atmospheres_data/PERSEVERANCE/meda.html",
   "units": {
     "pressure": "Pa",
@@ -158,6 +167,16 @@
       "themisNight": "Historical relative IR brightness"
     },
     "pliva-vallis": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "dacono": {
+      "meda": "Unknown",
+      "themisDay": "Historical relative IR brightness",
+      "themisNight": "Historical relative IR brightness"
+    },
+    "jezero-floor": {
       "meda": "Unknown",
       "themisDay": "Historical relative IR brightness",
       "themisNight": "Historical relative IR brightness"

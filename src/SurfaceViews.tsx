@@ -4,7 +4,7 @@ import { places } from './lib/places';
 
 const views = cards.flatMap(card => {
   const place = places.find(item => item.id === card.id);
-  if (!place || card.id === 'sava-vallis' || card.id === 'pliva-vallis') return [];
+  if (!place || ['sava-vallis', 'pliva-vallis', 'dacono', 'jezero-floor'].includes(card.id)) return [];
   return [{ id: card.id, name: place.name, photo: card.photo }];
 });
 

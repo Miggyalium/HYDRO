@@ -4,8 +4,23 @@ export function HistoricalConditions({ id, nested }: { id: string; nested: boole
   const campaign = id === 'hawksbill-gap' && !nested;
   const readings = nested ? [] : campaign ? conditions.hawksbill.examples
     : conditions.readings.filter(reading => reading.area === id);
+  const orbital = nested ? undefined : conditions.orbitalThermal.markerSamples.find(sample => sample.area === id);
 
   return <section className="historical-conditions">
+    {orbital && <>
+      <h3>Orbital surface observations</h3>
+      <dl>
+        <dt>Thermal inertia at the map marker · Derived</dt>
+        <dd>≈ {orbital.approximateThermalInertia} J·m⁻²·K⁻¹·s⁻½</dd>
+      </dl>
+      <p className="position-note">Thermal inertia describes how strongly the surface resists temperature changes. This estimate comes from a nighttime infrared mosaic at {conditions.orbitalThermal.pixelSizeM} m per pixel.</p>
+      {id === 'dacono' && <p className="position-note">Nearby pixels vary substantially across the crater.</p>}
+      <p><a target="_blank" rel="noopener noreferrer" href={conditions.orbitalThermal.source}>{conditions.orbitalThermal.credit}</a></p>
+      <p>For historical relative infrared brightness, open <strong>Layers</strong> and choose <strong>THEMIS Day IR</strong> or <strong>THEMIS Night IR</strong>.</p>
+      <h3>Local weather</h3>
+      <p>Air temperature, pressure, wind, humidity, and dust · Unknown</p>
+      <p>Dated surface temperature · Unknown</p>
+    </>}
     {readings.length === 0 ? <p>Historical MEDA readings · Unknown</p> : <>
       <p>{campaign ? 'Perseverance campaign context. Individual outcrop readings are Unknown.'
         : 'Perseverance workspace observation.'} Current conditions · Unknown.</p>
@@ -27,7 +42,7 @@ export function HistoricalConditions({ id, nested }: { id: string; nested: boole
         </details>
       </details>)}
     </>}
-    <p className="position-note">Ground temperature · {conditions.groundTemperature}</p>
+    {!orbital && <p className="position-note">Ground temperature · {conditions.groundTemperature}</p>}
     <a target="_blank" rel="noopener noreferrer" href={conditions.source}>NASA PDS MEDA archive</a>
   </section>;
 }

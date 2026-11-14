@@ -1,5 +1,5 @@
 {
-  "status": "eight-area-approved-handoff",
+  "status": "jezero-expanded",
   "name": "Jezero Crater",
   "projection": {
     "name": "Mars equirectangular",
@@ -24,7 +24,9 @@
     "brac",
     "rochette",
     "sava-vallis",
-    "pliva-vallis"
+    "pliva-vallis",
+    "dacono",
+    "jezero-floor"
   ],
   "routingCoverageMask": null,
   "walkingAccess": "Unknown",
