@@ -19,6 +19,7 @@ import { entries, places, project, search, type Entry } from './lib/places';
 import 'ol/ol.css';
 import './style.css';
 import { ScienceCard } from './ScienceCard';
+import { Findings } from './Findings';
 import { Directions } from './Directions';
 import { elevationRange, makeTerrainLayers, terrain } from './terrain';
 
@@ -29,6 +30,7 @@ function App() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Entry>();
   const [directionsOpen, setDirectionsOpen] = useState(false);
+  const [findings, setFindings] = useState<{ area: string; startNew: boolean }>();
   const [trackSource] = useState(() => new VectorSource<Feature<MultiPoint>>());
   const updateTrack = useCallback((points: number[][]) => {
     trackSource.clear();
@@ -39,6 +41,7 @@ function App() {
   const [layersOpen, setLayersOpen] = useState(false);
   const results = search(query);
   function select(entry: Entry) {
+    setFindings(undefined);
     setDirectionsOpen(false);
     setSelected(entry);
     setQuery(entry.name);
@@ -125,11 +128,23 @@ function App() {
           </li>)}</ul> : <p role="status">No matching places.</p>}
         </div>}
         <button className="layers-toggle directions-toggle" type="button" aria-expanded={directionsOpen}
-          onClick={() => { setOpen(false); setLayersOpen(false); setDirectionsOpen(!directionsOpen); }}>
+          onClick={() => { setFindings(undefined); setOpen(false); setLayersOpen(false); setDirectionsOpen(!directionsOpen); }}>
           {directionsOpen ? 'Close Directions' : 'Directions'}
         </button>
+        <button className="layers-toggle findings-toggle" type="button" aria-expanded={Boolean(findings)}
+          onClick={() => {
+            setOpen(false);
+            setLayersOpen(false);
+            setDirectionsOpen(false);
+            setFindings(findings ? undefined : { area: selected?.place.id ?? '', startNew: false });
+          }}>{findings ? 'Close Findings' : 'Findings'}</button>
         {directionsOpen && !open && <Directions initialStop={selected?.place.id ?? ''} onTrack={updateTrack} />}
-        {selected && !open && !directionsOpen && <ScienceCard key={selected.key} entry={selected} onSelect={select} />}
+        {findings && <div hidden={open}><Findings {...findings} /></div>}
+        {selected && !open && !directionsOpen && !findings && <ScienceCard key={selected.key} entry={selected} onSelect={select}
+          onNewFinding={() => {
+            setLayersOpen(false);
+            setFindings({ area: selected.place.id, startNew: true });
+          }} />}
       </section>
       <span className="map-title" aria-hidden="true">Jezero Crater</span>
       <div className="layer-control">

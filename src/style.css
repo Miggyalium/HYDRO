@@ -68,3 +68,18 @@ form input { padding-left: .65rem; }
 .historical-conditions summary { cursor: pointer; color: #ffd1ab; }
 .historical-conditions dl { margin-block: .5rem; }
 .historical-conditions dd { margin: 0 0 .4rem; font-weight: 600; }
+
+.findings-toggle { margin-top: .4rem; margin-left: .4rem; }
+.findings-form { display: grid; gap: .65rem; background: none; border: 0; box-shadow: none; margin-top: .65rem; }
+.findings-form label { display: grid; gap: .2rem; }
+.findings-form input, .findings-form select, .findings-form textarea {
+  width: 100%;
+  background: #231a14;
+  border: 1px solid #8a5c3d;
+  border-radius: .5rem;
+  padding: .4rem;
+  color: inherit;
+  font: inherit;
+}
+.finding-observation { white-space: pre-wrap; overflow-wrap: anywhere; }
+.findings a { color: #ffd1ab; }

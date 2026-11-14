@@ -42,3 +42,11 @@ Added the approved THEMIS day and night imagery as alternate map views, with the
 Existing tests, type check and production build passed. Both built THEMIS files match the kit by SHA-256. Browser and console review remain pending. Vite still reports the bundle size warning.
 
 Review both THEMIS views and their credit. Switch from Brac to Kodiak to confirm that the measurements clear, then open Hawksbill Gap and one of its nested outcrops to check the distinction between campaign context and Unknown.
+
+## Stage 6 · Astronaut Findings
+
+Added a browser-saved worksheet and record list. Science cards can open a new finding with the main area selected. The optional danger rating is subjective and starts at Unassessed. A selected rating requires a reason. Saved records display User-reported · Unverified.
+
+Type check, existing tests and production build passed. Browser interaction and console review remain pending. Vite reports the existing bundle size warning.
+
+Open Brac and choose Add astronaut finding. Verify the area and default rating, save an observation, refresh and reopen it from Findings, then create a second record. Check that a selected rating requires a reason.

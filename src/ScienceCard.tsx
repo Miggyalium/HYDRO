@@ -4,9 +4,10 @@ import { AreaCaution } from './Directions';
 import cards from './data/cards.json';
 import { entries, type Entry } from './lib/places';
 
-export function ScienceCard({ entry, onSelect }: {
+export function ScienceCard({ entry, onSelect, onNewFinding }: {
   entry: Entry;
   onSelect: (entry: Entry) => void;
+  onNewFinding: () => void;
 }) {
   const viewer = useRef<HTMLDialogElement>(null);
   const group = cards.find(card => card.id === entry.place.id);
@@ -39,6 +40,7 @@ export function ScienceCard({ entry, onSelect }: {
       <h2>{entry.nested ? 'Hawksbill Gap caution' : 'Terrain caution'}</h2>
       <AreaCaution id={entry.place.id} />
       <small>Local slope, footing and walking access · Unknown</small>
+      <button className="layers-toggle directions-toggle" type="button" onClick={onNewFinding}>Add astronaut finding</button>
     </section>
     {!entry.nested && group && group.details.length > 0 && <section>
       <h2>Hawksbill Gap outcrops</h2>
