@@ -27,6 +27,7 @@ import { marsDistanceKm, marsRadiusSource } from './lib/marsDistance';
 import 'ol/ol.css';
 import './style.css';
 import { ScienceCard } from './ScienceCard';
+import { AboutHydro } from './AboutHydro';
 import { SurfaceViews } from './SurfaceViews';
 import { Findings } from './Findings';
 import { Directions, type DirectionLine } from './Directions';
@@ -66,6 +67,7 @@ function App() {
   const target = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const [intro, setIntro] = useState(true);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const enterMap = useCallback(() => setIntro(false), []);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -301,12 +303,17 @@ function App() {
   }, [selected]);
 
   return <>
-    <header className="masthead"><img src={import.meta.env.BASE_URL + 'hydro-wordmark.png'} alt="Hydro" /><span>Uncover Jezero’s water</span></header>
+    <header className="masthead">
+      <img src={import.meta.env.BASE_URL + 'hydro-wordmark.png'} alt="Hydro" />
+      <span>Uncover Jezero’s water</span>
+      <button className="layers-toggle about-toggle" type="button" aria-haspopup="dialog" onClick={() => setAboutOpen(true)}>About &amp; sources</button>
+    </header>
+    {aboutOpen && <AboutHydro onClose={() => setAboutOpen(false)} />}
     {!intro && <main>
       <div className={placingLandmark ? 'map placing-landmark' : 'map'} ref={target} tabIndex={0} aria-label="Interactive Jezero Crater map" />
       <nav className="map-tool-rail" aria-label="Map tools">
         <div className="rail-features" role="group" aria-label="Features">
-        <RailButton label="Directions" preview="photos/pliva-ctx-review.png" expanded={directionsOpen && !open}
+        <RailButton label="Directions" preview="assets/directions-icon.svg" expanded={directionsOpen && !open}
           onClick={() => {
             setPlacement(false); setLandmarksOpen(false); setFindings(undefined); setOpen(false); setLayersOpen(false);
             if (stops.every(stop => !stop) && selected) setStops(['', selected.place.id]);

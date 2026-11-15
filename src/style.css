@@ -3,6 +3,10 @@
 .masthead { background: linear-gradient(105deg, #211813, #15110e); padding-inline: 1.6rem; }
 .masthead img { width: clamp(6rem, 13vw, 10.5rem); height: auto; }
 .masthead > span { border-left: 1px solid #8a6751; padding-left: 1rem; font-size: clamp(.85rem, 2vw, 1.3rem); }
+.masthead .about-toggle { margin-left: auto; flex: none; font-size: .8rem; }
+.photo-viewer.hydro-about { width: min(42rem, calc(100% - 1.5rem)); padding: 1rem; line-height: 1.5; }
+.hydro-about a { color: #ffd1ab; }
+.hydro-about li + li { margin-top: .35rem; }
 main { --rail-width: clamp(3.5rem, 7.5vw, 8.5rem); margin-left: var(--rail-width); border-left: 1px solid #493224; }
 .map-tool-rail { position: absolute; inset: 0 100% 0 auto; width: var(--rail-width); display: flex; flex-direction: column; gap: .65rem; padding: .65rem 0; overflow-y: auto; z-index: 4; }
 .rail-features, .rail-places { flex: 0 0 auto; display: grid; grid-auto-rows: max-content; justify-items: center; gap: .45rem; }
@@ -207,3 +211,5 @@ form input { padding-left: .65rem; }
 .mars-globe canvas:active { cursor: grabbing; }
 .mars-globe .mars-target { padding: .35rem .6rem; border: 1px solid #bd8054; border-radius: 1rem; background: #221a14e8; }
 .mars-globe .mars-target:hover { background: #683716; }
+
+.hydro-about .hydro-team-photo { height: auto; max-height: none; }
